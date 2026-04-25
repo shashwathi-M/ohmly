@@ -1,0 +1,647 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="Supabase-Config.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    
+
+<meta charset="utf-8"/>
+
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400;6..72,500;6..72,600;6..72,700&amp;family=Manrope:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+
+<script id="tailwind-config">
+
+        tailwind.config = {
+
+            darkMode: "class",
+
+            theme: {
+
+                extend: {
+
+                    "colors": {
+
+                        "on-error-container": "#93000a",
+
+                        "on-primary-container": "#7da692",
+
+                        "primary-fixed-dim": "#a6d0bb",
+
+                        "on-background": "#121d21",
+
+                        "on-surface-variant": "#414844",
+
+                        "surface-variant": "#d8e5e9",
+
+                        "secondary": "#566155",
+
+                        "error": "#ba1a1a",
+
+                        "on-primary": "#ffffff",
+
+                        "tertiary-container": "#36352b",
+
+                        "on-surface": "#121d21",
+
+                        "surface-bright": "#f1fbff",
+
+                        "surface-container": "#e4f0f4",
+
+                        "primary": "#002518",
+
+                        "inverse-surface": "#273236",
+
+                        "secondary-container": "#dae6d6",
+
+                        "tertiary-fixed": "#e7e3d3",
+
+                        "surface-container-high": "#deeaef",
+
+                        "error-container": "#ffdad6",
+
+                        "secondary-fixed-dim": "#becabb",
+
+                        "on-tertiary-fixed": "#1d1c13",
+
+                        "on-error": "#ffffff",
+
+                        "primary-container": "#133b2c",
+
+                        "on-secondary-fixed": "#141e14",
+
+                        "surface-dim": "#d0dce0",
+
+                        "tertiary-fixed-dim": "#cac7b8",
+
+                        "on-primary-fixed": "#002115",
+
+                        "outline-variant": "#c1c8c2",
+
+                        "on-tertiary-container": "#a09d90",
+
+                        "surface": "#f1fbff",
+
+                        "surface-container-highest": "#d8e5e9",
+
+                        "surface-container-lowest": "#ffffff",
+
+                        "on-secondary-container": "#5c675b",
+
+                        "inverse-on-surface": "#e6f3f7",
+
+                        "inverse-primary": "#a6d0bb",
+
+                        "tertiary": "#212016",
+
+                        "primary-fixed": "#c1ecd6",
+
+                        "on-tertiary-fixed-variant": "#49473c",
+
+                        "on-secondary-fixed-variant": "#3f4a3e",
+
+                        "surface-tint": "#3f6655",
+
+                        "background": "#FEF8E5",
+
+                        "outline": "#717974",
+
+                        "secondary-fixed": "#dae6d6",
+
+                        "on-primary-fixed-variant": "#274e3e",
+
+                        "on-tertiary": "#ffffff",
+
+                        "surface-container-low": "#e9f6fa",
+
+                        "on-secondary": "#ffffff"
+
+                    },
+
+                    "borderRadius": {
+
+                        "DEFAULT": "0.25rem",
+
+                        "lg": "0.5rem",
+
+                        "xl": "0.75rem",
+
+                        "full": "9999px"
+
+                    },
+
+                    "spacing": {
+
+                        "margin-page": "40px",
+
+                        "stack-md": "20px",
+
+                        "stack-sm": "12px",
+
+                        "gutter": "24px",
+
+                        "card-padding": "24px",
+
+                        "base": "8px"
+
+                    },
+
+                    "fontFamily": {
+
+                        "h2": ["Newsreader"],
+
+                        "label-caps": ["Manrope"],
+
+                        "h1": ["Newsreader"],
+
+                        "h3": ["Newsreader"],
+
+                        "body-lg": ["Manrope"],
+
+                        "data-display": ["Manrope"],
+
+                        "body-md": ["Manrope"],
+
+                        "caption": ["Manrope"]
+
+                    },
+
+                    "fontSize": {
+
+                        "h2": ["32px", {"lineHeight": "1.3", "fontWeight": "500"}],
+
+                        "label-caps": ["12px", {"lineHeight": "1.2", "letterSpacing": "0.05em", "fontWeight": "700"}],
+
+                        "h1": ["48px", {"lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "600"}],
+
+                        "h3": ["24px", {"lineHeight": "1.4", "fontWeight": "500"}],
+
+                        "body-lg": ["18px", {"lineHeight": "1.6", "fontWeight": "400"}],
+
+                        "data-display": ["28px", {"lineHeight": "1.1", "letterSpacing": "-0.01em", "fontWeight": "700"}],
+
+                        "body-md": ["16px", {"lineHeight": "1.5", "fontWeight": "400"}],
+
+                        "caption": ["13px", {"lineHeight": "1.4", "fontWeight": "500"}]
+
+                    }
+
+                },
+
+            },
+
+        }
+
+    </script>
+
+<style type="text/tailwindcss">
+
+        :root {
+
+            --bg-page: #FEF8E5;
+
+            --dusty-peach: #F7E1D7;
+
+            --sage-mist: #E0E8D9;
+
+            --warm-pearl: #F5F3ED;
+
+            --ghost-card-bg: rgba(254, 248, 229, 0.35);
+
+        }
+
+        .glass-card {
+
+            background: rgba(255, 255, 255, 0.8);
+
+            backdrop-filter: blur(16px);
+
+            border: 1px solid rgba(255, 255, 255, 0.2);
+
+        }
+
+        .material-symbols-outlined {
+
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+
+        }
+
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+</head>
+
+<body class="bg-[var(--bg-page)] font-body-md text-on-surface selection:bg-primary-fixed">
+
+<header class="bg-[var(--bg-page)]/80 backdrop-blur-xl fixed top-0 w-full z-50 border-b border-emerald-900/10 shadow-sm h-20">
+
+<div class="flex justify-between items-center px-10 h-full w-full mx-auto">
+
+<div class="flex items-center gap-12">
+
+<span class="text-2xl font-bold tracking-tighter text-emerald-900">Ohmly</span>
+
+<nav id="mainNav" class="hidden md:flex items-center gap-8">
+    <a class="nav-link text-emerald-900/60 font-medium font-serif text-sm tracking-wide" href="input.html">Input</a>
+    <a class="nav-link text-emerald-900/60 font-medium font-serif text-sm tracking-wide" href="overview.html">Overview</a>
+    <a class="nav-link text-emerald-900/60 font-medium font-serif text-sm tracking-wide" href="insights.html">Insights</a>
+    <a class="nav-link text-emerald-900/60 font-medium font-serif text-sm tracking-wide" href="actions.html">Actions</a>
+    <a class="nav-link text-emerald-900/60 font-medium font-serif text-sm tracking-wide" href="report.html">Report</a>
+</nav>
+
+<script>
+    // Automatically highlight the current page
+    const currentPage = window.location.pathname.split("/").pop() || "input.html";
+    document.querySelectorAll('.nav-link').forEach(link => {
+        if (link.getAttribute('href') === currentPage) {
+            link.classList.add('border-b-2', 'border-emerald-900', 'text-emerald-900', 'font-semibold');
+            link.classList.remove('text-emerald-900/60');
+        }
+    });
+</script>
+
+</div>
+
+<div class="flex items-center gap-6">
+    <button class="bg-primary text-on-primary px-6 py-2.5 rounded-xl font-body-md font-semibold active:scale-95 transition-transform" onclick="window.location.href='input.html'">
+        Start New Analysis
+    </button>
+
+    <button class="material-symbols-outlined text-emerald-900 text-3xl cursor-pointer" onclick="window.location.href='report.html'">account_circle</button>
+    
+    <button class="material-symbols-outlined text-emerald-900 text-3xl cursor-pointer" onclick="handleLogout()">logout</button>
+</div>
+
+</div>
+
+</div>
+
+</header>
+
+<main class="pt-28 pb-20 px-margin-page max-w-7xl mx-auto">
+
+<div class="grid grid-cols-12 gap-gutter">
+
+<section class="col-span-12 lg:col-span-8 relative h-[500px] rounded-3xl overflow-hidden shadow-xl">
+
+<img class="absolute inset-0 w-full h-full object-cover" data-alt="Close up of hands gently cupping a small green plant sprout in rich dark soil, soft ethereal lighting with warm morning glow" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBeI1Q251zK5kHNOuQbRNzc3QpEumpVAi1cdmZpCGeqYtSvy6nWmakxHlAly_l057svU1U6d8-h_VMxmuUNVeoumFqlHU7Z904JRcZiQFQsoQk-KqfZ51ExxNh7RnUL6AkZxZTAU9kP7xihCV8wqbepZ9xDA9Tg2ci9MVQ_D9ZLXIj1VWR2WZwzFbZ30Ka1rNShBQI_oG91ZFK1Ht16yEvEN7SnoVGF5f0F45IeoP6_z6uFov7isQM9EtFQaWz6PlCPyd0Q1ukSgqmp"/>
+
+<div class="absolute inset-0 bg-gradient-to-r from-emerald-950/40 to-transparent"></div>
+
+<div class="relative z-10 h-full flex flex-col justify-between p-10">
+
+<div>
+
+<span class="inline-flex items-center px-4 py-1.5 rounded-full bg-white/20 backdrop-blur-md text-white font-label-caps text-[10px] uppercase mb-4">
+
+                        Silver Tier Efficiency
+
+                    </span>
+
+<h1 class="font-h1 text-h1 text-white max-w-md">Your energy sanctuary is flourishing.</h1>
+
+</div>
+
+<div class="glass-card absolute top-1/2 -right-4 -translate-y-1/2 translate-x-[-15%] p-10 rounded-[40px] shadow-2xl flex flex-col items-center justify-center border-white/30">
+
+<div class="relative w-48 h-48 flex items-center justify-center">
+
+<svg class="w-full h-full -rotate-90">
+
+<circle class="text-emerald-900/10" cx="96" cy="96" fill="transparent" r="88" stroke="currentColor" stroke-width="12"></circle>
+
+<circle class="text-emerald-900" cx="96" cy="96" fill="transparent" r="88" stroke="currentColor" stroke-dasharray="552.92" stroke-dashoffset="154.81" stroke-linecap="round" stroke-width="12"></circle>
+
+</svg>
+
+<div class="absolute inset-0 flex flex-col items-center justify-center">
+
+<span id="ohmScore" class="font-data-display text-[64px] text-emerald-900">--</span>
+
+<span class="font-label-caps text-emerald-900/60 -mt-2">Ohm Score</span>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+<div class="col-span-12 lg:col-span-4 flex flex-col gap-gutter">
+
+<div class="bg-[var(--dusty-peach)] p-card-padding rounded-3xl flex flex-col justify-between h-[155px] shadow-sm">
+
+<div class="flex justify-between items-start">
+
+<span class="material-symbols-outlined text-primary p-2 bg-white/30 rounded-xl" data-icon="bolt">bolt</span>
+
+<div class="flex items-center gap-1 bg-emerald-700/10 text-emerald-900 px-2 py-0.5 rounded-full text-caption font-bold">
+
+<span class="material-symbols-outlined text-xs" data-icon="trending_down">trending_down</span>
+
+                        12%
+
+                    </div>
+
+</div>
+
+<div>
+
+<p id="kwhValue" class="font-data-display text-h3 text-emerald-950">-- kWh</p>
+
+<p class="font-caption text-emerald-900/70">Daily Usage Trend</p>
+
+</div>
+
+</div>
+
+<div class="bg-[var(--sage-mist)] p-card-padding rounded-3xl flex flex-col justify-between h-[155px] shadow-sm">
+
+<div class="flex justify-between items-start">
+
+<span class="material-symbols-outlined text-primary p-2 bg-white/30 rounded-xl" data-icon="ecg_heart">ecg_heart</span>
+
+<span class="text-emerald-900 font-label-caps text-[10px] uppercase border border-emerald-900/30 px-2 py-0.5 rounded-full">Optimal</span>
+
+</div>
+
+<div>
+
+<p id="efficiencyRank" class="font-data-display text-h3 text-emerald-950">Optimal</p>
+
+<p class="font-caption text-emerald-900/70">Efficiency Level</p>
+
+</div>
+
+</div>
+
+<div class="bg-[var(--warm-pearl)] p-card-padding rounded-3xl flex flex-col justify-between h-[155px] shadow-sm">
+
+<div class="flex justify-between items-start">
+
+<span class="material-symbols-outlined text-primary p-2 bg-white/30 rounded-xl" data-icon="rebase">rebase</span>
+
+</div>
+
+<div>
+
+<p id="displayBill" class="font-data-display text-h3 text-emerald-950">₹ --</p>
+
+<p class="font-caption text-emerald-900/70">Monthly Total Power</p>
+
+</div>
+
+</div>
+
+</div>
+
+<div class="col-span-12 grid grid-cols-1 md:grid-cols-2 gap-gutter mt-4">
+
+<div class="bg-[var(--ghost-card-bg)] backdrop-blur-sm p-10 rounded-[32px] shadow-sm border border-emerald-900/5">
+
+<div class="flex justify-between items-start mb-8">
+
+<h3 id="comparisonText" class="font-h3 text-h3 text-emerald-950 max-w-xs">Calculating your rank...</h3>
+
+<span class="bg-emerald-900/10 text-emerald-900 px-4 py-2 rounded-full font-label-caps text-[10px]">Top 20% In Neighborhood</span>
+
+</div>
+
+<div class="mt-12">
+
+<div class="flex justify-between text-caption font-bold text-emerald-900/40 uppercase mb-3 px-1">
+
+<span>Efficient</span>
+
+<span>High Usage</span>
+
+</div>
+
+<div class="relative h-4 w-full bg-gradient-to-r from-emerald-600 via-yellow-400 to-orange-500 rounded-full">
+
+<div class="absolute left-[18%] -top-1.5 w-7 h-7 bg-white rounded-full shadow-lg border-2 border-emerald-900 flex items-center justify-center">
+
+<div class="w-2 h-2 bg-emerald-900 rounded-full"></div>
+
+<span class="absolute -bottom-10 left-1/2 -translate-x-1/2 font-label-caps text-emerald-950">You</span>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+<div class="bg-[var(--ghost-card-bg)] backdrop-blur-sm p-10 rounded-[32px] shadow-sm border border-emerald-900/5 flex flex-col">
+
+<h3 class="font-h3 text-h3 text-emerald-950 mb-8">Peer Benchmarking</h3>
+
+<div class="space-y-6 flex-grow">
+
+<div class="flex items-center justify-between py-2 border-b border-emerald-950/10">
+
+<div class="flex items-center gap-4">
+
+<div class="w-10 h-10 rounded-full bg-emerald-900/10 flex items-center justify-center font-bold text-emerald-950">U1</div>
+
+<span id="user1Kwh" class="font-bold text-emerald-950 text-lg">-- kWh</span>
+
+</div>
+
+<div class="flex items-center gap-6">
+
+<span id="kwhValue" class="font-data-display text-lg text-emerald-950">Calculating...</span>
+
+<span class="bg-emerald-900 text-white px-3 py-1 rounded-full text-caption font-bold">Excellent</span>
+
+</div>
+
+</div>
+
+<div class="flex items-center justify-between py-2 border-b border-emerald-950/10">
+
+<div class="flex items-center gap-4">
+
+<div class="w-10 h-10 rounded-full bg-emerald-900/10 flex items-center justify-center font-bold text-emerald-950">U2</div>
+
+<span class="font-body-md font-semibold text-emerald-950">User 2</span>
+
+</div>
+
+<div class="flex items-center gap-6">
+
+<span class="font-data-display text-lg text-emerald-950">14.8 kWh</span>
+
+<span class="bg-yellow-600 text-white px-3 py-1 rounded-full text-caption font-bold">Average</span>
+
+</div>
+
+</div>
+
+<div class="flex items-center justify-between py-2">
+
+<div class="flex items-center gap-4">
+
+<div class="w-10 h-10 rounded-full bg-emerald-900/10 flex items-center justify-center font-bold text-emerald-950">U3</div>
+
+<span class="font-body-md font-semibold text-emerald-950">User 3</span>
+
+</div>
+
+<div class="flex items-center gap-6">
+
+<span class="font-data-display text-lg text-emerald-950">19.5 kWh</span>
+
+<span class="bg-orange-600 text-white px-3 py-1 rounded-full text-caption font-bold">High</span>
+
+</div>
+
+</div>
+
+</div>
+
+<a class="mt-8 flex items-center gap-2 text-emerald-950 font-bold font-label-caps text-[11px] group" href="#">
+
+                    VIEW FULL INSIGHT REPORT
+
+                    <span class="material-symbols-outlined text-sm group-hover:translate-x-1 transition-transform" data-icon="arrow_forward">arrow_forward</span>
+
+</a>
+
+</div>
+
+</div>
+
+</div>
+
+</main>
+
+<footer class="bg-emerald-900 text-emerald-50 w-full mt-auto">
+
+<div class="flex flex-col md:flex-row justify-between items-center px-10 py-12 w-full max-w-7xl mx-auto">
+
+<div class="mb-8 md:mb-0">
+
+<span class="text-4xl font-black text-white block mb-2">Ohmly</span>
+
+<p class="font-serif text-emerald-200/60 max-w-xs text-xs tracking-widest uppercase">
+
+                Revolutionizing personal energy stewardship through sophisticated data harmony and clarity.
+
+            </p>
+
+</div>
+
+<div class="flex flex-col items-center md:items-end gap-6">
+
+<nav class="flex gap-8 font-serif text-xs uppercase tracking-widest">
+
+<a class="text-emerald-200/60 hover:text-white transition-opacity" href="#">Privacy Policy</a>
+
+<a class="text-emerald-200/60 hover:text-white transition-opacity" href="#">Terms of Service</a>
+
+<a class="text-emerald-200/60 hover:text-white transition-opacity" href="#">Sustainability Report</a>
+
+</nav>
+
+<p class="font-serif text-xs uppercase tracking-widest text-emerald-200/40">
+
+                © 2026 Ohmly. All rights reserved.
+
+            </p>
+
+</div>
+
+</div>
+
+</footer>
+
+<script>
+    const OhmlyEngine = {
+        async init() {
+            // 1. Get Bill & Calculate kWh
+            const rawBill = parseFloat(localStorage.getItem('latest_bill')) || 0;
+            const kwh = Math.round(rawBill / 8.2);
+            const userId = localStorage.getItem('ohmly_user_id');
+            
+            // 2. YOUR ORIGINAL DESIGN LOGIC (Do not change)
+            let score, rank, sliderPos;
+
+            if (rawBill <= 1000) {
+                score = 96; rank = "EXCEPTIONAL"; sliderPos = "10%";
+            } else if (rawBill <= 3900) {
+                score = 84; rank = "GOOD"; sliderPos = "30%";
+            } else if (rawBill <= 6000) {
+                score = 62; rank = "MODERATE"; sliderPos = "65%";
+            } else {
+                score = 41; rank = "HIGH USAGE"; sliderPos = "85%";
+            }
+
+            // 3. SILENT CLOUD SYNC (Fixed to use window.sb)
+            if (userId && rawBill > 0 && window.sb) {
+                window.sb.from('consumption_logs').insert([
+                    { user_id: userId, value: kwh, unit: 'kWh' }
+                ]).then(({ error }) => { 
+                    if (error) console.log("Sync skipped:", error.message); 
+                    else console.log("✅ Cloud Sync Success");
+                });
+            }
+
+            this.render({
+                bill: rawBill.toLocaleString(),
+                kwh: kwh,
+                score: score,
+                rank: rank,
+                sliderPos: sliderPos
+            });
+        },
+
+        render(state) {
+            // ALL YOUR ORIGINAL DESIGN SELECTORS
+            if(document.getElementById('ohmScore')) document.getElementById('ohmScore').innerText = state.score;
+            if(document.getElementById('displayBill')) document.getElementById('displayBill').innerText = "₹ " + state.bill;
+            
+            if(document.getElementById('efficiencyRank')) {
+                document.getElementById('efficiencyRank').innerText = state.rank;
+                if(state.score < 65) {
+                    document.getElementById('efficiencyRank').classList.replace('text-emerald-950', 'text-orange-900');
+                }
+            }
+            
+            document.querySelectorAll('#kwhValue, #user1Kwh').forEach(el => {
+                el.innerText = state.kwh + " kWh";
+            });
+
+            // FIXED POINTER LOGIC (Maintains your CSS classes)
+            const userIndicator = document.querySelector('.absolute.left-\\[18\\%\\]');
+            if (userIndicator) {
+                userIndicator.style.left = state.sliderPos;
+                userIndicator.style.transition = "left 1.2s cubic-bezier(0.34, 1.56, 0.64, 1)";
+            }
+
+            const compText = document.getElementById('comparisonText');
+            if (compText) {
+                compText.innerText = state.score < 65 ? "Above Neighborhood Average" : "Top 20% In Neighborhood";
+            }
+        }
+    };
+
+    function handleLogout() {
+        localStorage.clear();
+        window.location.href = 'input.html'; 
+    }
+
+    window.onload = () => OhmlyEngine.init();
+</script>
+
+</body></html>

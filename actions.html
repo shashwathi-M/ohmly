@@ -1,0 +1,361 @@
+<html class="light" lang="en"><head>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="Supabase-Config.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head><body class="font-body-md text-on-surface">```html
+
+
+
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700&amp;family=Newsreader:ital,wght@0,500;0,600;1,400&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-tertiary-fixed-variant": "#49473c",
+                        "on-tertiary": "#ffffff",
+                        "tertiary": "#212016",
+                        "surface-container-high": "#deeaef",
+                        "tertiary-fixed-dim": "#cac7b8",
+                        "on-tertiary-fixed": "#1d1c13",
+                        "error": "#ba1a1a",
+                        "on-primary": "#ffffff",
+                        "surface-container-highest": "#d8e5e9",
+                        "error-container": "#ffdad6",
+                        "on-error": "#ffffff",
+                        "surface-bright": "#f1fbff",
+                        "outline": "#717974",
+                        "surface-container-lowest": "#ffffff",
+                        "on-secondary-fixed-variant": "#3f4a3e",
+                        "on-secondary": "#ffffff",
+                        "secondary-fixed-dim": "#becabb",
+                        "secondary-fixed": "#dae6d6",
+                        "secondary": "#566155",
+                        "primary-fixed": "#c1ecd6",
+                        "inverse-primary": "#a6d0bb",
+                        "secondary-container": "#dae6d6",
+                        "surface-container-low": "#e9f6fa",
+                        "primary-fixed-dim": "#a6d0bb",
+                        "on-surface-variant": "#414844",
+                        "inverse-surface": "#273236",
+                        "surface-variant": "#d8e5e9",
+                        "on-surface": "#121d21",
+                        "on-secondary-fixed": "#141e14",
+                        "on-primary-container": "#7da692",
+                        "tertiary-fixed": "#e7e3d3",
+                        "surface": "#f1fbff",
+                        "on-tertiary-container": "#a09d90",
+                        "on-primary-fixed-variant": "#274e3e",
+                        "on-error-container": "#93000a",
+                        "tertiary-container": "#36352b",
+                        "outline-variant": "#c1c8c2",
+                        "background": "#FFF8E7",
+                        "on-background": "#121d21",
+                        "surface-container": "#e4f0f4",
+                        "surface-tint": "#3f6655",
+                        "primary": "#002518",
+                        "inverse-on-surface": "#e6f3f7",
+                        "surface-dim": "#d0dce0",
+                        "primary-container": "#133b2c",
+                        "on-secondary-container": "#5c675b",
+                        "on-primary-fixed": "#002115"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "margin-page": "40px",
+                        "card-padding": "24px",
+                        "stack-md": "20px",
+                        "base": "8px",
+                        "stack-sm": "12px",
+                        "gutter": "24px"
+                    },
+                    "fontFamily": {
+                        "h1": ["Newsreader"],
+                        "data-display": ["Manrope"],
+                        "body-lg": ["Manrope"],
+                        "h3": ["Newsreader"],
+                        "caption": ["Manrope"],
+                        "label-caps": ["Manrope"],
+                        "h2": ["Newsreader"],
+                        "body-md": ["Manrope"]
+                    },
+                    "fontSize": {
+                        "h1": ["48px", {"lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "600"}],
+                        "data-display": ["28px", {"lineHeight": "1.1", "letterSpacing": "-0.01em", "fontWeight": "700"}],
+                        "body-lg": ["18px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                        "h3": ["24px", {"lineHeight": "1.4", "fontWeight": "500"}],
+                        "caption": ["13px", {"lineHeight": "1.4", "fontWeight": "500"}],
+                        "label-caps": ["12px", {"lineHeight": "1.2", "letterSpacing": "0.05em", "fontWeight": "700"}],
+                        "h2": ["32px", {"lineHeight": "1.3", "fontWeight": "500"}],
+                        "body-md": ["16px", {"lineHeight": "1.5", "fontWeight": "400"}]
+                    }
+                },
+            },
+        }
+    </script>
+<style type="text/tailwindcss">
+        body { background-color: #FFF8E7; }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 4px 20px rgba(19, 59, 44, 0.12);
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        :root {
+            --dusty-rose: #E8B4B8;
+            --pale-ochre: #F2D0A9;
+            --warm-sand: #E7D7C1;
+            --rose-icon: #A66D71;
+            --ochre-icon: #A6845B;
+            --sand-icon: #8C7C6D;
+        }
+    </style>
+
+
+<header class="bg-white/80 dark:bg-stone-900/80 backdrop-blur-md shadow-sm border-b border-stone-200/50 dark:border-stone-800/50 docked full-width top-0 sticky z-50">
+<div class="flex justify-between items-center w-full px-10 py-4 max-w-[1440px] mx-auto">
+<div class="text-2xl font-bold font-serif text-emerald-900 dark:text-emerald-50">Ohmly</div>
+<nav id="mainNav" class="hidden md:flex items-center gap-8">
+    <a class="nav-link text-emerald-900/60 font-medium font-serif text-sm tracking-wide" href="input.html">Input</a>
+    <a class="nav-link text-emerald-900/60 font-medium font-serif text-sm tracking-wide" href="overview.html">Overview</a>
+    <a class="nav-link text-emerald-900/60 font-medium font-serif text-sm tracking-wide" href="insights.html">Insights</a>
+    <a class="nav-link text-emerald-900/60 font-medium font-serif text-sm tracking-wide" href="actions.html">Actions</a>
+    <a class="nav-link text-emerald-900/60 font-medium font-serif text-sm tracking-wide" href="report.html">Report</a>
+</nav>
+
+<script>
+    // Automatically highlight the current page
+    const currentPage = window.location.pathname.split("/").pop() || "input.html";
+    document.querySelectorAll('.nav-link').forEach(link => {
+        if (link.getAttribute('href') === currentPage) {
+            link.classList.add('border-b-2', 'border-emerald-900', 'text-emerald-900', 'font-semibold');
+            link.classList.remove('text-emerald-900/60');
+        }
+    });
+</script>
+<div class="flex items-center gap-4">
+    <button class="bg-primary text-white px-5 py-2 rounded-lg text-xs font-bold uppercase tracking-widest active:scale-95 transition-all" onclick="window.location.href='input.html'">
+        New Scan
+    </button>
+    <button class="material-symbols-outlined text-stone-600 cursor-pointer" onclick="window.location.href='report.html'">account_circle</button>
+    <button class="material-symbols-outlined text-stone-600 cursor-pointer" onclick="handleLogout()">logout</button>
+</div>
+</div>
+</header>
+<main class="max-w-[1440px] mx-auto px-margin-page py-10">
+    <section class="mb-10">
+        <h1 class="font-h1 text-h1 text-primary mb-2">Personalized Recommendations</h1>
+        <p class="font-body-lg text-body-lg text-secondary opacity-80 max-w-2xl">Intelligent steps to restore your efficiency and reduce your monthly carbon footprint.</p>
+    </section>
+
+    <div class="mb-10 bg-[#FFF4E5] border border-[#FFE4B2] rounded-xl p-6 flex items-center justify-between">
+        <div class="flex items-center gap-4">
+            <span class="material-symbols-outlined text-[#B45309] text-3xl">warning</span>
+            <div class="glass-card p-6 rounded-xl border-l-4 border-error">
+    <p class="font-bold text-error uppercase text-xs mb-1">Alert: Unusual Pattern</p>
+    <p class="font-body-md text-primary">
+    Usage increased by <span id="usage-percent-val" class="font-bold text-red-600">N/A</span> compared to last week.
+</p>
+</div>
+        </div>
+        <a class="text-[#B45309] font-bold underline decoration-2 underline-offset-4 hover:opacity-70 transition-opacity" href="#">View Breakdown</a>
+    </div>
+
+    <div class="grid grid-cols-12 gap-gutter">
+        <div class="col-span-12 lg:col-span-8 space-y-gutter">
+            <div class="flex items-center gap-6 mb-8">
+                <div class="w-24 h-24 rounded-full overflow-hidden shrink-0 shadow-lg ring-4 ring-white/20">
+                    <img alt="Distant wind turbines" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBFoV-F9GsjAqVN8fcpETx0UamaDT13Wp1cHaz-YcxeRbUCbQ2OGFb_loQbT8gcE_JDeQv8yd81RNbX7GRJs2O7AtomBO4woI5YuEUrf0Ky-dOy3UQlq4haLYBHuB3SruhNB8W5nMfQvJKZJpJzX_yK_xm8EH17fVx9UIDt1qU0cjPayEXnRtPg_7_CAAoog3eho7CbiEnbvuQY3ajYIP22dbfFr1cr_USwo4uANXPXenB3s57UUdbMqAiqRplkwgdFHoYNyWWCQ0nx"/>
+                </div>
+                <div>
+                    <h2 class="font-h2 text-h2 text-primary">Your Energy Interventions</h2>
+                    <p class="font-body-md text-body-md text-secondary">Personalized recommendations to bring your sanctuary back to balance.</p>
+                </div>
+            </div>
+
+            <div class="space-y-6">
+                <div class="bg-white rounded-xl p-card-padding shadow-md flex items-center justify-between transition-all duration-300 hover:shadow-lg hover:-translate-y-1 active:scale-[0.98] cursor-pointer group border border-transparent hover:border-primary/10">
+                    <div class="flex items-center gap-6">
+                        <div class="bg-[var(--dusty-rose)] p-4 rounded-xl transition-colors group-hover:bg-rose-200">
+                            <span class="material-symbols-outlined text-[var(--rose-icon)] text-3xl">ac_unit</span>
+                        </div>
+                        <div>
+                            <div class="flex flex-wrap items-center gap-3 mb-1">
+                                <h3 class="font-bold text-lg text-primary">Reduce AC by 1 hour</h3>
+                                <span class="bg-error-container text-on-error-container text-[10px] font-bold px-2 py-1 rounded-full uppercase tracking-wider">HIGH IMPACT</span>
+                            </div>
+                            <p id="acSavingsText" class="text-secondary opacity-75 text-sm">Estimated savings: ₹250 / month</p>
+                        </div>
+                    </div>
+                    <span class="material-symbols-outlined text-stone-300 group-hover:text-primary transition-colors">chevron_right</span>
+                </div>
+
+                <div class="bg-white rounded-xl p-card-padding shadow-md flex items-center justify-between transition-all duration-300 hover:shadow-lg hover:-translate-y-1 active:scale-[0.98] cursor-pointer group border border-transparent hover:border-primary/10">
+                    <div class="flex items-center gap-6">
+                        <div class="bg-[var(--pale-ochre)] p-4 rounded-xl transition-colors group-hover:bg-orange-100">
+                            <span class="material-symbols-outlined text-[var(--ochre-icon)] text-3xl">lightbulb</span>
+                        </div>
+                        <div>
+                            <div class="flex flex-wrap items-center gap-3 mb-1">
+                                <h3 class="font-bold text-lg text-primary">Switch to LED bulbs</h3>
+                                <span class="bg-secondary-fixed text-on-secondary-fixed-variant text-[10px] font-bold px-2 py-1 rounded-full uppercase tracking-wider">MEDIUM IMPACT</span>
+                            </div>
+                            <p class="text-secondary opacity-75 text-sm">Estimated savings: ₹120 / month</p>
+                        </div>
+                    </div>
+                    <span class="material-symbols-outlined text-stone-300 group-hover:text-primary transition-colors">chevron_right</span>
+                </div>
+
+                <div class="bg-white rounded-xl p-card-padding shadow-md flex items-center justify-between transition-all duration-300 hover:shadow-lg hover:-translate-y-1 active:scale-[0.98] cursor-pointer group border border-transparent hover:border-primary/10">
+                    <div class="flex items-center gap-6">
+                        <div class="bg-[var(--warm-sand)] p-4 rounded-xl transition-colors group-hover:bg-stone-200">
+                            <span class="material-symbols-outlined text-[var(--sand-icon)] text-3xl">local_laundry_service</span>
+                        </div>
+                        <div>
+                            <div class="flex flex-wrap items-center gap-3 mb-1">
+                                <h3 class="font-bold text-lg text-primary">Run full-load washing cycles</h3>
+                                <span class="bg-surface-container-high text-on-surface-variant text-[10px] font-bold px-2 py-1 rounded-full uppercase tracking-wider">EASY HABIT</span>
+                            </div>
+                            <p class="text-secondary opacity-75 text-sm">Improves device health & longevity</p>
+                        </div>
+                    </div>
+                    <span class="material-symbols-outlined text-stone-300 group-hover:text-primary transition-colors">chevron_right</span>
+                </div>
+            </div> 
+        </div>
+
+        <div class="col-span-12 lg:col-span-4 space-y-gutter">
+            <div class="bg-white rounded-xl p-card-padding shadow-sm border border-stone-100">
+                <div class="flex justify-between items-center mb-6">
+                    <h5 class="font-bold text-sm text-primary">Efficiency Trend</h5>
+                    <span class="text-[10px] text-[#2F3E34] font-bold">+4.2% ↑</span>
+                </div>
+                <div class="h-28 flex items-end gap-2 px-2">
+                    <div class="flex-1 bg-stone-100 rounded-t-lg h-[40%]"></div>
+                    <div class="flex-1 bg-[#2F3E34] opacity-20 rounded-t-lg h-[60%]"></div>
+                    <div class="flex-1 bg-stone-200 rounded-t-lg h-[55%]"></div>
+                    <div class="flex-1 bg-[#2F3E34] opacity-40 rounded-t-lg h-[85%]"></div>
+                    <div class="flex-1 bg-[#4A5D50] rounded-t-lg h-[70%]"></div>
+                    <div class="flex-1 bg-[#2F3E34] rounded-t-lg h-[95%]"></div>
+                </div>
+            </div>
+
+            <div class="glass-card bg-primary-container/90 text-white rounded-2xl p-8 relative overflow-hidden ring-1 ring-white/20">
+                <div class="absolute -right-4 -top-4 opacity-10">
+                    <span class="material-symbols-outlined text-9xl">track_changes</span>
+                </div>
+                <div class="flex items-center gap-3 mb-6 relative z-10">
+                    <span class="material-symbols-outlined text-primary-fixed">track_changes</span>
+                    <span class="font-label-caps text-label-caps tracking-widest text-primary-fixed">ACTIVE TARGET</span>
+                </div>
+                <h3 class="font-h3 text-h3 mb-6 leading-tight relative z-10">Reduce 10% next cycle to improve efficiency rank.</h3>
+                <div class="space-y-4 mb-8 relative z-10">
+                    <div class="flex justify-between items-end">
+                        <span class="text-sm font-medium opacity-80">Progress to Tier 1</span>
+                        <span id="progressPercent" class="text-2xl font-bold">65%</span>
+                    </div>
+                    <div class="w-full bg-white/10 h-2 rounded-full overflow-hidden">
+                        <div id="progressBar" class="bg-primary-fixed h-full w-[65%] rounded-full shadow-[0_0_10px_rgba(193,236,214,0.5)]"></div>
+                    </div>
+                </div>
+                <p class="text-sm text-primary-fixed/80 italic leading-relaxed border-t border-white/10 pt-6 relative z-10">
+                    "Small shifts today lead to a sustainable tomorrow. You're just 15 units away from your goal!"
+                </p>
+            </div>
+
+            <div class="bg-[#E9F6E9] rounded-xl p-card-padding border border-[#D1EAD1] shadow-sm">
+                <div class="flex items-start gap-4">
+                    <div class="bg-white/50 p-2 rounded-lg">
+                        <span class="material-symbols-outlined text-emerald-700" style="font-variation-settings: 'FILL' 1;">lightbulb</span>
+                    </div>
+                    <div class="mt-8">
+    <h3 class="font-h3 text-primary mb-2">Magnificent Energy!</h3>
+    <p id="impactText" class="font-body-md text-primary/70">Your autonomous water governance and energy monitoring has saved <span id="carbonSaved" class="font-bold text-emerald-700">--</span> kg of CO2 this week.</p>
+</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+<footer class="bg-stone-50 dark:bg-stone-950 full-width py-12 mt-20 border-t border-stone-200 dark:border-stone-800">
+<div class="flex flex-col md:flex-row justify-between items-center w-full px-10 max-w-[1440px] mx-auto gap-8">
+<div class="font-serif font-bold text-emerald-900 dark:text-emerald-50 text-xl tracking-tight">Ohmly</div>
+<p class="text-stone-400 text-xs font-sans tracking-wide uppercase text-center md:text-right">
+            © 2026 Ohmly. All rights reserved. Built for Organic Intelligence.
+        </p>
+</div>
+</footer>
+<script>
+    const ActionsEngine = {
+        init() {
+            // 1. DATA RECOVERY: Look in LocalStorage first, then Fallback
+            const rawBill = parseFloat(localStorage.getItem('latest_bill')) || 4200;
+            const savedState = JSON.parse(localStorage.getItem('ohmly_system_state'));
+            
+            // 2. CREATE STABLE STATE: Even if state is missing, the page won't crash
+            const state = {
+                bill: rawBill,
+                score: savedState ? savedState.score : (rawBill > 5000 ? 72 : 88),
+                carbon: savedState ? savedState.carbon : Math.round((rawBill / 8.2) * 0.85)
+            };
+
+            this.render(state);
+        },
+
+        render(state) {
+            // 1. Fix the Alert (Usage Increase)
+            const usageValEl = document.getElementById('usage-percent-val');
+            if(usageValEl) {
+                // If bill is high (>5000), show a higher increase alert
+                usageValEl.innerText = state.bill > 5000 ? "18.4%" : "11.2%";
+            }
+
+            // 2. Fix the Carbon Text
+            if(document.getElementById('carbonSaved')) {
+                document.getElementById('carbonSaved').innerText = state.carbon;
+            }
+
+            // 3. Dynamic AC Savings (Approx 12% of total bill)
+            if(document.getElementById('acSavingsText')) {
+                const acSavings = Math.round(state.bill * 0.12);
+                document.getElementById('acSavingsText').innerText = `Estimated savings: ₹${acSavings} / month`;
+            }
+
+            // 4. Update the "Active Target" Progress Bar
+            const progressBar = document.getElementById('progressBar');
+            const progressPercent = document.getElementById('progressPercent');
+            
+            if(progressBar && progressPercent) {
+                // Progress is based on their efficiency score
+                const progress = state.score; 
+                progressBar.style.width = progress + "%";
+                progressBar.style.transition = "width 2s cubic-bezier(0.34, 1.56, 0.64, 1)";
+                progressPercent.innerText = progress + "%";
+            }
+        }
+    };
+
+    function handleLogout() {
+        localStorage.clear();
+        sessionStorage.clear();
+        window.location.href = 'input.html';
+    }
+
+    // Execute immediately to ensure the page renders
+    window.onload = () => ActionsEngine.init();
+</script>
+
+```</body></html>

@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html class="light" lang="en">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="Supabase-Config.js"></script>
+    
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<script src="supabase-config.js"></script>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Ohmly - Energy Analysis Setup</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;500;700;900&amp;family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,700;1,6..72,400&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#4C6444",
+                        "background-warm": "#FFF8E5",
+                        "sap-green": "#4C6444",
+                        "sap-green-dark": "#364930",
+                        "sap-green-light": "#6b8a61",
+                        "border-organic": "#D6CDB7",
+                        "text-organic": "#4C6444"
+                    },
+                    fontFamily: {
+                        "display": ["Newsreader", "serif"],
+                        "sans": ["Public Sans", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "2xl": "1rem",
+                        "3xl": "1.5rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+<style type="text/tailwindcss">
+        .glass {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(12px);
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        body {
+            background-color: #FFF8E5;
+            color: #4C6444;
+        }
+    </style>
+</head>
+<body class="font-sans selection:bg-sap-green/20">
+<header class="flex items-center justify-between whitespace-nowrap border-b border-solid border-border-organic bg-white/50 backdrop-blur-sm px-6 md:px-20 py-4 sticky top-0 z-50">
+<div class="flex items-center gap-4 text-sap-green">
+<div class="size-8">
+<svg fill="none" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+<path d="M42.1739 20.1739L27.8261 5.82609C29.1366 7.13663 28.3989 10.1876 26.2002 13.7654C24.8538 15.9564 22.9595 18.3449 20.6522 20.6522C18.3449 22.9595 15.9564 24.8538 13.7654 26.2002C10.1876 28.3989 7.13663 29.1366 5.82609 27.8261L20.1739 42.1739C21.4845 43.4845 24.5355 42.7467 28.1133 40.548C30.3042 39.2016 32.6927 37.3073 35 35C37.3073 32.6927 39.2016 30.3042 40.548 28.1133C42.7467 24.5355 43.4845 21.4845 42.1739 20.1739Z" fill="currentColor"></path>
+</svg>
+</div>
+<h2 class="text-sap-green text-2xl font-display font-bold leading-tight tracking-tight">Ohmly</h2>
+</div>
+<nav id="mainNav" class="hidden md:flex items-center gap-8">
+    <a class="nav-link text-emerald-900/60 font-medium font-serif text-sm tracking-wide" href="input.html">Input</a>
+    <a class="nav-link text-emerald-900/60 font-medium font-serif text-sm tracking-wide" href="overview.html">Overview</a>
+    <a class="nav-link text-emerald-900/60 font-medium font-serif text-sm tracking-wide" href="insights.html">Insights</a>
+    <a class="nav-link text-emerald-900/60 font-medium font-serif text-sm tracking-wide" href="actions.html">Actions</a>
+    <a class="nav-link text-emerald-900/60 font-medium font-serif text-sm tracking-wide" href="report.html">Report</a>
+</nav>
+
+<script>
+    // Automatically highlight the current page
+    const currentPage = window.location.pathname.split("/").pop() || "input.html";
+    document.querySelectorAll('.nav-link').forEach(link => {
+        if (link.getAttribute('href') === currentPage) {
+            link.classList.add('border-b-2', 'border-emerald-900', 'text-emerald-900', 'font-semibold');
+            link.classList.remove('text-emerald-900/60');
+        }
+    });
+</script>
+<div class="flex items-center gap-4">
+<div class="flex items-center gap-3">
+    <span id="userDisplayId" class="text-[10px] font-mono text-sap-green/40 hidden md:block uppercase tracking-tighter"></span>
+    
+    <button class="flex items-center justify-center rounded-full h-10 w-10 bg-white/40 border border-border-organic hover:bg-white transition-colors">
+        <span class="material-symbols-outlined text-sap-green">person</span>
+    </button>
+</div>
+</div>
+</header>
+<main>
+<section class="relative min-h-[900px] flex flex-col lg:flex-row bg-background-warm">
+<div class="relative w-full lg:w-1/2 h-[500px] lg:h-auto overflow-hidden">
+<div class="absolute inset-0 bg-cover bg-center" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAzbSlAfSs2aOSsvi9_ipFSTNpuZzT_JYfYbTe_Bf09WBDoTZDkFkVCRjjp_jvoRf7kOv2XhUpwsEtk6TBuyeIkA7xALVgInqkxk2nhjLhXXGNo5kGT1RIimQ67yISYJr9ISVjbYadq5os4Sp_jII4TrMw_hYRUILrDjy2L91kxUCfQKnMmPXhwvrJ2emMidYoLDjfoHnoj1PkDnPQJSfj3QqZ_cPbqRQyaXBsX5j16G0dQgQ1wbDhhc10rREfSzD2lrMkkbl19Q28f')"></div>
+<div class="absolute inset-0 bg-gradient-to-t from-sap-green-dark/60 via-transparent to-transparent"></div>
+<div class="absolute top-10 left-10 md:left-20 max-w-md text-white z-10">
+<h1 class="font-display italic text-5xl md:text-7xl font-bold leading-[1.1] mb-6">
+                    See it, Fix it,<br/>Save it
+                </h1>
+<p class="text-lg md:text-xl font-light leading-relaxed text-white/90">
+                    Power your home efficiently with Ohmly's AI-driven energy analysis and real-time insights.
+                </p>
+</div>
+</div>
+<div class="w-full lg:w-1/2 flex items-center justify-center p-6 md:p-12 lg:p-20 relative">
+<div class="w-full max-w-lg glass border border-border-organic rounded-3xl p-8 md:p-10 shadow-2xl">
+<div class="mb-8">
+<h2 class="font-display text-3xl font-bold text-sap-green mb-2">Energy Analysis Setup</h2>
+<p class="text-sap-green/60 text-sm">Enter your details to generate your first efficiency report.</p>
+</div>
+<form class="space-y-6">
+    <div class="p-4 rounded-2xl bg-sap-green/5 border border-sap-green/10">
+        <h3 class="text-xs font-bold uppercase tracking-widest text-sap-green/60 mb-4 text-center">Existing Users</h3>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div class="space-y-1">
+                <label class="text-[10px] font-bold uppercase text-sap-green/40 ml-2">Ohmly ID</label>
+                <input id="returningID" class="w-full bg-white/80 border-border-organic rounded-xl px-4 py-3 text-sm focus:ring-sap-green" placeholder="Leave blank if you are new" type="text"/>
+            </div>
+            <div class="space-y-1">
+                <label class="text-[10px] font-bold uppercase text-sap-green/40 ml-2">Latest Bill (₹)</label>
+                <input id="billInput" class="w-full bg-white/80 border-border-organic rounded-xl px-4 py-3 text-sm focus:ring-sap-green" placeholder="4250.00" type="number"/>
+            </div>
+        </div>
+    </div>
+
+    <div class="relative flex items-center py-2">
+        <div class="flex-grow border-t border-border-organic/50"></div>
+        <span class="flex-shrink mx-4 text-[10px] font-black text-sap-green/30 uppercase tracking-tighter">OR</span>
+        <div class="flex-grow border-t border-border-organic/50"></div>
+    </div>
+
+    <div class="p-4 rounded-2xl border border-border-organic/40">
+        <h3 class="text-xs font-bold uppercase tracking-widest text-sap-green/60 mb-4 text-center">First-Time Setup</h3>
+        <div class="space-y-4">
+            <div class="space-y-1">
+                <label class="text-[10px] font-bold uppercase text-sap-green/40 ml-2">Home Address</label>
+                <input class="w-full bg-white/50 border-border-organic rounded-xl px-4 py-3 text-sm focus:ring-sap-green" placeholder="Enter your full address" type="text"/>
+            </div>
+            <div class="space-y-1">
+    <label class="text-[10px] font-bold uppercase text-sap-green/40 ml-2">Initial Bill for Analysis (₹)</label>
+    <input id="newMemberBill" class="w-full bg-white/50 border-border-organic rounded-xl px-4 py-3 text-sm focus:ring-sap-green" placeholder="e.g. 3000" type="number"/>
+</div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div class="space-y-1">
+                    <label class="text-[10px] font-bold uppercase text-sap-green/40 ml-2">Occupancy</label>
+                    <select class="w-full bg-white/50 border-border-organic rounded-xl px-4 py-3 text-sm focus:ring-sap-green">
+                        <option>1-2 Persons</option>
+                        <option>3-4 Persons</option>
+                        <option>5+ Persons</option>
+                    </select>
+                </div>
+                <div class="space-y-1">
+                    <label class="text-[10px] font-bold uppercase text-sap-green/40 ml-2">Billing Cycle</label>
+                    <select class="w-full bg-white/50 border-border-organic rounded-xl px-4 py-3 text-sm focus:ring-sap-green">
+                        <option>Monthly</option>
+                        <option>Bi-monthly</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <button id="submitBtn" 
+        type="button" 
+        onclick="runOhmlyLogic()" 
+        class="relative z-30 bg-[#002518] text-white px-8 py-3 rounded-xl font-bold block mx-auto min-w-[200px] min-h-[50px]">
+    Analyze Energy Usage
+</button>
+
+</form>
+<div id="analysisResults" style="display: none; margin-top: 30px; padding: 20px; background: white; border-radius: 20px; border: 1px solid #D6CDB7;">
+    <h3 id="rankText" class="font-display text-2xl font-bold text-sap-green mb-2 text-center"></h3>
+    <p id="unitText" class="text-center text-sap-green/70 font-bold mb-4"></p>
+    <div id="chartDiv"></div>
+</div>
+</div>
+</div>
+</section>
+<section class="py-24 px-6 md:px-20 bg-background-warm grid grid-cols-1 lg:grid-cols-2 gap-12 items-center border-t border-border-organic">
+<div class="flex justify-center order-2 lg:order-1">
+<div class="relative size-64 md:size-96 rounded-full border border-border-organic flex items-center justify-center">
+<div class="absolute inset-4 rounded-full border border-border-organic/60"></div>
+<div class="absolute inset-10 rounded-full border border-sap-green/20 bg-sap-green/5"></div>
+<div class="relative size-60 md:size-[22rem] rounded-full overflow-hidden shadow-2xl border-4 border-white z-10 transition-all duration-300">
+<img alt="Lush forest floor" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAsIACLp_QmyTRt17WywX-N-8ZAx-HCvdscETEqxUG--XXC5-VnwLXvxI91hD1Xt9HnFad01Oz1FouuvxZE-pMGRjoRdbMVsuNyMj9EE-gkX6xMx1b-s2L1Z8xYqlzm84JS1yhOclYVGycD4ND0rXIIDUg7vth5DuqOLvl9x4kTXXWfjwxh9uNPbPvteq_G1D4yhLAUTaX2xqkN-c3dOGaUFjc9eb-9A-XfC0lYqv8vUR2S2YFOOrU7qDYokP_vzpVvNNmkiIiUKSpt"/>
+</div>
+<div class="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 size-6 bg-sap-green-light rounded-full flex items-center justify-center border-2 border-background-warm z-20">
+<span class="material-symbols-outlined text-[10px] text-white" style="font-variation-settings: 'FILL' 1;">eco</span>
+</div>
+<div class="absolute bottom-0 left-1/2 -translate-x-1/2 translate-y-1/2 size-5 bg-sap-green/40 rounded-full border border-background-warm z-20"></div>
+<div class="absolute left-0 top-1/2 -translate-x-1/2 -translate-y-1/2 size-5 bg-sap-green/40 rounded-full border border-background-warm z-20"></div>
+<div class="absolute right-0 top-1/2 translate-x-1/2 -translate-y-1/2 size-5 bg-sap-green/40 rounded-full border border-background-warm z-20"></div>
+</div>
+</div>
+<div class="order-1 lg:order-2">
+<div class="bg-sap-green p-12 md:p-16 rounded-[3rem] text-white relative overflow-hidden shadow-2xl">
+<div class="absolute top-0 right-0 p-8 opacity-10">
+<span class="material-symbols-outlined text-9xl">forest</span>
+</div>
+<span class="text-white/70 text-xs font-bold uppercase tracking-[0.2em] mb-8 block">The Ohmly Ethos</span>
+<h3 class="font-display italic text-4xl md:text-5xl font-bold leading-tight mb-8">
+                    "Efficiency isn't just about saving money; it's about honoring the energy that fuels our lives."
+                </h3>
+<p class="text-white/60 leading-relaxed text-lg max-w-md">
+                    We believe that every household has the potential to become a micro-generator of sustainability through conscious consumption.
+                </p>
+</div>
+</div>
+</section>
+<section class="py-24 px-6 md:px-20 bg-background-warm">
+<div class="max-w-4xl mx-auto text-center">
+<div class="inline-flex items-center gap-2 px-4 py-2 bg-sap-green/10 rounded-full text-sap-green text-xs font-bold uppercase tracking-widest mb-8">
+<span class="material-symbols-outlined text-sm">energy_savings_leaf</span>
+                Our Mission
+            </div>
+<h2 class="font-display text-4xl md:text-5xl font-bold text-sap-green mb-6 leading-tight">
+                Smarter energy starts with better insights.
+            </h2>
+<p class="text-sap-green/70 text-lg md:text-xl max-w-2xl mx-auto mb-16 leading-relaxed">
+                We help you understand, compare, and optimize your electricity usage effortlessly.
+            </p>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-12 text-left">
+<div class="space-y-4">
+<div class="size-12 bg-sap-green text-white rounded-2xl flex items-center justify-center shadow-lg">
+<span class="material-symbols-outlined">insights</span>
+</div>
+<h4 class="font-bold text-sap-green text-xl">Understand</h4>
+<p class="text-sap-green/70 text-sm leading-relaxed">Understand your usage with simple, clear insights from your electricity data</p>
+</div>
+<div class="space-y-4">
+<div class="size-12 bg-sap-green text-white rounded-2xl flex items-center justify-center shadow-lg">
+<span class="material-symbols-outlined">compare_arrows</span>
+</div>
+<h4 class="font-bold text-sap-green text-xl">Compare</h4>
+<p class="text-sap-green/70 text-sm leading-relaxed">Compare with similar homes to see where you stand</p>
+</div>
+<div class="space-y-4">
+<div class="size-12 bg-sap-green text-white rounded-2xl flex items-center justify-center shadow-lg">
+<span class="material-symbols-outlined">tips_and_updates</span>
+</div>
+<h4 class="font-bold text-sap-green text-xl">Act Smarter</h4>
+<p class="text-sap-green/70 text-sm leading-relaxed">Act smarter with personalized tips to reduce bills and save energy</p>
+</div>
+</div>
+</div>
+</section>
+</main>
+<footer class="bg-white/40 border-t border-border-organic py-12 px-6 md:px-20">
+<div class="flex flex-col md:flex-row justify-between items-center gap-8">
+<div class="flex items-center gap-3">
+<div class="size-6 text-sap-green">
+<svg fill="currentColor" viewBox="0 0 48 48">
+<path d="M42.1739 20.1739L27.8261 5.82609C29.1366 7.13663 28.3989 10.1876 26.2002 13.7654C24.8538 15.9564 22.9595 18.3449 20.6522 20.6522C18.3449 22.9595 15.9564 24.8538 13.7654 26.2002C10.1876 28.3989 7.13663 29.1366 5.82609 27.8261L20.1739 42.1739C21.4845 43.4845 24.5355 42.7467 28.1133 40.548C30.3042 39.2016 32.6927 37.3073 35 35C37.3073 32.6927 39.2016 30.3042 40.548 28.1133C42.7467 24.5355 43.4845 21.4845 42.1739 20.1739Z"></path>
+</svg>
+</div>
+<span class="font-display font-bold text-lg text-sap-green">Ohmly</span>
+</div>
+<div class="flex gap-8 text-sm text-sap-green/60 font-medium">
+<a class="hover:text-sap-green transition-colors" href="#">Privacy Policy</a>
+<a class="hover:text-sap-green transition-colors" href="#">Terms of Service</a>
+<a class="hover:text-sap-green transition-colors" href="#">Contact Support</a>
+</div>
+<div class="text-sm text-sap-green/50">
+            © 2026 Ohmly Energy Analysis. All rights reserved.
+        </div>
+</div>
+</footer>
+<script>
+(function() {
+    const SB_URL = 'https://aorpqiaogqrdbjrayhff.supabase.co';
+    const SB_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFvcnBxaWFvZ3FyZGJqcmF5aGZmIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzcwMTczODksImV4cCI6MjA5MjU5MzM4OX0.w3eE9XNxlhnN5EFR7MfnfrhjekAekKkqwgLT9zYDmak';
+    let supabaseClient;
+
+    window.addEventListener('DOMContentLoaded', () => {
+        if (window.supabase) {
+            supabaseClient = window.supabase.createClient(SB_URL, SB_KEY);
+        }
+
+        const savedId = localStorage.getItem('ohmly_user_id');
+        const displayEl = document.getElementById('userDisplayId');
+        if (savedId && displayEl) {
+            displayEl.innerText = "ID: " + savedId.substring(0, 8).toUpperCase();
+            if(document.getElementById('returningID')) document.getElementById('returningID').value = savedId;
+        }
+    });
+
+    window.runOhmlyLogic = async function() {
+    const submitBtn = document.getElementById('submitBtn');
+    const existingBill = document.getElementById('billInput').value;
+    const newMemberBill = document.getElementById('newMemberBill').value;
+    
+    // Pick whichever box has a number in it
+    const billVal = parseFloat(existingBill || newMemberBill || "0");
+    
+    if (billVal <= 0) {
+        alert("Please enter a valid bill amount to start the analysis.");
+        return;
+    }
+
+    // 1. SAVE TO DATABASE (LocalStorage)
+    // We save under multiple keys to ensure compatibility with your other pages
+    localStorage.setItem('latest_bill', billVal);
+    localStorage.setItem('bill', billVal);
+    
+    // 2. CREATE A SYSTEM STATE (Overview/Insights expects this)
+    const mockState = {
+        bill: billVal,
+        kwh: (billVal / 8.2).toFixed(1), // Dynamic conversion
+        score: Math.floor(Math.random() * (95 - 70 + 1)) + 70, // Randomized for demo
+        carbon: (billVal * 0.1).toFixed(1)
+    };
+    localStorage.setItem('ohmly_system_state', JSON.stringify(mockState));
+
+    // 3. SUPABASE SYNC (Optional but recommended)
+    try {
+        if (supabaseClient) {
+            submitBtn.innerText = "Syncing...";
+            await supabaseClient.from('consumption_logs').insert([{ 
+                user_id: localStorage.getItem('ohmly_user_id') || "GUEST_USER",
+                value: billVal, 
+                unit: 'INR',
+                created_at: new Date()
+            }]);
+        }
+    } catch (e) { 
+        console.warn("Supabase Sync Failed - Running in Local Mode", e); 
+    }
+
+    // 4. REDIRECT
+    submitBtn.innerText = "Analyzing...";
+    setTimeout(() => {
+        window.location.href = "overview.html"; // Or loading.html
+    }, 500);
+}
+async function saveConsumption(billValue) {
+    const { data, error } = await supabase
+        .from('consumption_logs')
+        .insert([
+            { 
+                user_id: localStorage.getItem('ohmly_user_id'), // Matches your 'text' ID
+                value: parseFloat(billValue),                  // Matches your 'float8'
+                unit: 'kWh'                                     // Matches your 'text'
+            }
+        ]);
+
+    if (error) console.error("Error saving:", error.message);
+    else window.location.href = 'overview.html';
+}
+})();
+</script>
+
+</body>
+</html>

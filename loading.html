@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html class="light" lang="en">
+<head>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="Supabase-Config.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Ohmly - Energy Analysis</title>
+
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,wght@0,400;0,600;0,700;1,400&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet"/>
+
+<script>
+tailwind.config = {
+  darkMode: "class",
+  theme: {
+    extend: {
+      colors: {
+        primary: "#002518",
+        "primary-container": "#133b2c",
+        background: "#f1fbff",
+        surface: "#f1fbff",
+      }
+    }
+  }
+}
+</script>
+
+<style>
+.material-symbols-outlined {
+  font-variation-settings: 'FILL' 1, 'wght' 400;
+}
+</style>
+</head>
+
+<body class="bg-surface text-on-surface min-h-screen flex flex-col relative overflow-hidden">
+
+<div class="absolute inset-0 z-0">
+    <img class="w-full h-full object-cover blur-md scale-105" 
+         src="https://images.unsplash.com/photo-1473341304170-971dccb5ac1e?auto=format&fit=crop&q=80&w=2070" 
+         alt="Background"/>
+    <div class="absolute inset-0 bg-white/20"></div>
+</div>
+
+<nav class="fixed top-0 w-full z-50 flex justify-between items-center px-10 py-4 bg-white/80 backdrop-blur-lg shadow-sm border-b border-emerald-900/10">
+  <div class="text-2xl font-['Newsreader'] font-bold text-emerald-900">Ohmly</div>
+
+  <nav id="mainNav" class="hidden md:flex items-center gap-8">
+    <a class="nav-link text-emerald-900/60 font-medium font-serif text-sm tracking-wide" href="input.html">Input</a>
+    <a class="nav-link text-emerald-900/60 font-medium font-serif text-sm tracking-wide" href="overview.html">Overview</a>
+    <a class="nav-link text-emerald-900/60 font-medium font-serif text-sm tracking-wide" href="insights.html">Insights</a>
+    <a class="nav-link text-emerald-900/60 font-medium font-serif text-sm tracking-wide" href="actions.html">Actions</a>
+    <a class="nav-link text-emerald-900/60 font-medium font-serif text-sm tracking-wide" href="report.html">Report</a>
+</nav>
+
+<script>
+    // Automatically highlight the current page
+    const currentPage = window.location.pathname.split("/").pop() || "input.html";
+    document.querySelectorAll('.nav-link').forEach(link => {
+        if (link.getAttribute('href') === currentPage) {
+            link.classList.add('border-b-2', 'border-emerald-900', 'text-emerald-900', 'font-semibold');
+            link.classList.remove('text-emerald-900/60');
+        }
+    });
+</script>
+
+  <button class="bg-[#133b2c] text-white px-4 py-2 rounded-lg text-sm font-bold">
+    Start New Analysis
+  </button>
+</nav>
+
+<main class="relative z-10 flex flex-col items-center justify-center flex-grow text-center px-6">
+
+  <div class="w-20 h-20 bg-white rounded-full flex items-center justify-center shadow-lg mb-6">
+    <span class="material-symbols-outlined text-3xl text-[#133b2c]">lightbulb</span>
+  </div>
+
+  <h1 class="text-4xl font-['Newsreader'] font-bold mb-2 text-[#133b2c]">
+    Analyzing your energy behavior...
+  </h1>
+
+  <p class="font-['Manrope'] text-gray-600 mb-6">
+    Using tariff data, household patterns, and regional benchmarks.
+  </p>
+
+  <div class="bg-white px-6 py-2 rounded-full shadow-md mb-10 flex items-center gap-2">
+    <span class="material-symbols-outlined text-sm text-[#133b2c]">location_on</span>
+    <span id="locationStatus" class="font-bold text-xs tracking-widest text-[#133b2c]">DETECTING GRID...</span>
+  </div>
+
+  <div class="w-full max-w-xl">
+    <div class="h-[2px] bg-[#133b2c]/10 mb-2 overflow-hidden relative">
+        <div class="absolute inset-0 bg-[#133b2c] w-2/3"></div>
+    </div>
+    <div class="flex justify-between text-[10px] font-bold text-gray-400 tracking-tighter">
+      <span>CROSS-REFERENCING HISTORICALS</span>
+      <span>65% COMPLETE</span>
+    </div>
+  </div>
+
+</main>
+
+<footer class="relative z-10 py-6 text-center text-xs text-gray-400">
+  © 2026 Ohmly. All rights reserved.
+</footer>
+
+<script>
+    window.onload = () => {
+        const statusEl = document.getElementById('locationStatus');
+        if(statusEl) statusEl.innerText = "GRID SYNCHRONIZED"; // Removed "Chennai"
+
+        setTimeout(() => {
+            window.location.replace("overview.html");
+        }, 3000);
+    };
+</script>
+
+</html>
