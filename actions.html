@@ -1,6 +1,7 @@
 <html class="light" lang="en"><head>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script src="Supabase-Config.js"></script>
+<script src="supabase-config.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head><body class="font-body-md text-on-surface">```html
 
@@ -187,21 +188,21 @@
             </div>
 
             <div class="space-y-6">
-                <div class="bg-white rounded-xl p-card-padding shadow-md flex items-center justify-between transition-all duration-300 hover:shadow-lg hover:-translate-y-1 active:scale-[0.98] cursor-pointer group border border-transparent hover:border-primary/10">
-                    <div class="flex items-center gap-6">
-                        <div class="bg-[var(--dusty-rose)] p-4 rounded-xl transition-colors group-hover:bg-rose-200">
-                            <span class="material-symbols-outlined text-[var(--rose-icon)] text-3xl">ac_unit</span>
-                        </div>
-                        <div>
-                            <div class="flex flex-wrap items-center gap-3 mb-1">
-                                <h3 class="font-bold text-lg text-primary">Reduce AC by 1 hour</h3>
-                                <span class="bg-error-container text-on-error-container text-[10px] font-bold px-2 py-1 rounded-full uppercase tracking-wider">HIGH IMPACT</span>
-                            </div>
-                            <p id="acSavingsText" class="text-secondary opacity-75 text-sm">Estimated savings: ₹250 / month</p>
-                        </div>
-                    </div>
-                    <span class="material-symbols-outlined text-stone-300 group-hover:text-primary transition-colors">chevron_right</span>
+    <div class="bg-white rounded-xl p-card-padding shadow-md flex items-center justify-between transition-all duration-300 hover:shadow-lg hover:-translate-y-1 active:scale-[0.98] cursor-pointer group border border-transparent hover:border-primary/10">
+        <div class="flex items-center gap-6">
+            <div class="bg-[var(--dusty-rose)] p-4 rounded-xl transition-colors group-hover:bg-rose-200">
+                <span id="rec-icon-1" class="material-symbols-outlined text-[var(--rose-icon)] text-3xl">ac_unit</span>
+            </div>
+            <div>
+                <div class="flex flex-wrap items-center gap-3 mb-1">
+                    <h3 id="rec-title-1" class="font-bold text-lg text-primary">Loading...</h3>
+                    <span id="rec-tag-1" class="bg-error-container text-on-error-container text-[10px] font-bold px-2 py-1 rounded-full uppercase tracking-wider">HIGH IMPACT</span>
                 </div>
+                <p id="rec-desc-1" class="text-secondary opacity-75 text-sm">Calculating savings...</p>
+            </div>
+        </div>
+        <span class="material-symbols-outlined text-stone-300 group-hover:text-primary transition-colors">chevron_right</span>
+    </div>
 
                 <div class="bg-white rounded-xl p-card-padding shadow-md flex items-center justify-between transition-all duration-300 hover:shadow-lg hover:-translate-y-1 active:scale-[0.98] cursor-pointer group border border-transparent hover:border-primary/10">
                     <div class="flex items-center gap-6">
@@ -237,57 +238,70 @@
             </div> 
         </div>
 
-        <div class="col-span-12 lg:col-span-4 space-y-gutter">
-            <div class="bg-white rounded-xl p-card-padding shadow-sm border border-stone-100">
-                <div class="flex justify-between items-center mb-6">
-                    <h5 class="font-bold text-sm text-primary">Efficiency Trend</h5>
-                    <span class="text-[10px] text-[#2F3E34] font-bold">+4.2% ↑</span>
+        <div class="col-span-12 lg:col-span-4 space-y-8"> <div class="bg-white rounded-xl p-6 shadow-sm border border-stone-100">
+        <div class="flex justify-between items-center mb-6">
+            <h5 class="font-bold text-sm text-primary uppercase">Efficiency Trend</h5>
+            <span class="text-[10px] text-[#2F3E34] font-bold">+4.2% ↑</span>
+        </div>
+        <div class="h-28 flex items-end gap-2 px-2">
+            <div class="flex-1 bg-stone-100 rounded-t-lg h-[40%]"></div>
+            <div class="flex-1 bg-[#2F3E34] opacity-20 rounded-t-lg h-[60%]"></div>
+            <div class="flex-1 bg-stone-200 rounded-t-lg h-[55%]"></div>
+            <div class="flex-1 bg-[#2F3E34] opacity-40 rounded-t-lg h-[85%]"></div>
+            <div class="flex-1 bg-[#4A5D50] rounded-t-lg h-[70%]"></div>
+            <div class="flex-1 bg-[#2F3E34] rounded-t-lg h-[95%]"></div>
+        </div>
+    </div>
+
+    <div class="glass-card rounded-xl p-6 shadow-xl">
+        <div class="flex justify-between items-center mb-4">
+            <h5 class="font-bold text-xs text-primary uppercase tracking-widest">Energy Fingerprint</h5>
+            <span class="material-symbols-outlined text-primary/30 text-sm">analytics</span>
+        </div>
+        <div class="relative h-[200px] w-full">
+            <canvas id="actionsBreakdownChart"></canvas>
+        </div>
+        <p class="text-[9px] text-center text-primary/50 mt-4 italic">*Approximate appliance-level breakdown</p>
+    </div>
+
+    <div class="glass-card bg-primary-container/90 text-white rounded-2xl p-8 relative overflow-hidden ring-1 ring-white/20">
+        <div class="absolute -right-4 -top-4 opacity-10">
+            <span class="material-symbols-outlined text-9xl">track_changes</span>
+        </div>
+        <div class="flex items-center gap-3 mb-6 relative z-10">
+            <span class="material-symbols-outlined text-primary-fixed">track_changes</span>
+            <span class="font-label-caps text-label-caps tracking-widest text-primary-fixed uppercase">Active Target</span>
+        </div>
+        
+        <div id="target-content-area" class="relative z-10">
+             <h3 class="font-h3 text-h3 mb-6 leading-tight">Reduce 10% next cycle to improve rank.</h3>
+             <div class="space-y-4 mb-8">
+                <div class="flex justify-between items-end">
+                    <span class="text-sm font-medium opacity-80">Progress to Tier 1</span>
+                    <span id="progressPercent" class="text-2xl font-bold">--</span>
                 </div>
-                <div class="h-28 flex items-end gap-2 px-2">
-                    <div class="flex-1 bg-stone-100 rounded-t-lg h-[40%]"></div>
-                    <div class="flex-1 bg-[#2F3E34] opacity-20 rounded-t-lg h-[60%]"></div>
-                    <div class="flex-1 bg-stone-200 rounded-t-lg h-[55%]"></div>
-                    <div class="flex-1 bg-[#2F3E34] opacity-40 rounded-t-lg h-[85%]"></div>
-                    <div class="flex-1 bg-[#4A5D50] rounded-t-lg h-[70%]"></div>
-                    <div class="flex-1 bg-[#2F3E34] rounded-t-lg h-[95%]"></div>
+                <div class="w-full bg-white/10 h-2 rounded-full overflow-hidden">
+                    <div id="progressBar" class="bg-primary-fixed h-full w-[0%] rounded-full transition-all duration-1000"></div>
                 </div>
             </div>
+            <p class="text-sm text-primary-fixed/80 italic leading-relaxed border-t border-white/10 pt-6">
+                Calculating your sustainable trajectory...
+            </p>
+        </div>
+    </div>
 
-            <div class="glass-card bg-primary-container/90 text-white rounded-2xl p-8 relative overflow-hidden ring-1 ring-white/20">
-                <div class="absolute -right-4 -top-4 opacity-10">
-                    <span class="material-symbols-outlined text-9xl">track_changes</span>
-                </div>
-                <div class="flex items-center gap-3 mb-6 relative z-10">
-                    <span class="material-symbols-outlined text-primary-fixed">track_changes</span>
-                    <span class="font-label-caps text-label-caps tracking-widest text-primary-fixed">ACTIVE TARGET</span>
-                </div>
-                <h3 class="font-h3 text-h3 mb-6 leading-tight relative z-10">Reduce 10% next cycle to improve efficiency rank.</h3>
-                <div class="space-y-4 mb-8 relative z-10">
-                    <div class="flex justify-between items-end">
-                        <span class="text-sm font-medium opacity-80">Progress to Tier 1</span>
-                        <span id="progressPercent" class="text-2xl font-bold">65%</span>
-                    </div>
-                    <div class="w-full bg-white/10 h-2 rounded-full overflow-hidden">
-                        <div id="progressBar" class="bg-primary-fixed h-full w-[65%] rounded-full shadow-[0_0_10px_rgba(193,236,214,0.5)]"></div>
-                    </div>
-                </div>
-                <p class="text-sm text-primary-fixed/80 italic leading-relaxed border-t border-white/10 pt-6 relative z-10">
-                    "Small shifts today lead to a sustainable tomorrow. You're just 15 units away from your goal!"
-                </p>
+    <div class="bg-[#E9F6E9] rounded-xl p-6 border border-[#D1EAD1]">
+        <div class="flex items-start gap-4">
+            <div class="bg-white/50 p-2 rounded-lg">
+                <span class="material-symbols-outlined text-emerald-700" style="font-variation-settings: 'FILL' 1;">lightbulb</span>
             </div>
-
-            <div class="bg-[#E9F6E9] rounded-xl p-card-padding border border-[#D1EAD1] shadow-sm">
-                <div class="flex items-start gap-4">
-                    <div class="bg-white/50 p-2 rounded-lg">
-                        <span class="material-symbols-outlined text-emerald-700" style="font-variation-settings: 'FILL' 1;">lightbulb</span>
-                    </div>
-                    <div class="mt-8">
-    <h3 class="font-h3 text-primary mb-2">Magnificent Energy!</h3>
-    <p id="impactText" class="font-body-md text-primary/70">Your autonomous water governance and energy monitoring has saved <span id="carbonSaved" class="font-bold text-emerald-700">--</span> kg of CO2 this week.</p>
-</div>
-                </div>
+            <div>
+                <h3 class="font-bold text-primary mb-1">Magnificent Energy!</h3>
+                <p class="text-xs text-primary/70">Your actions today impact the grid's resilience tomorrow.</p>
             </div>
         </div>
+    </div>
+</div>
     </div>
 </main>
 <footer class="bg-stone-50 dark:bg-stone-950 full-width py-12 mt-20 border-t border-stone-200 dark:border-stone-800">
@@ -299,51 +313,137 @@
 </div>
 </footer>
 <script>
+    if (!localStorage.getItem('latest_bill')) {
+    window.location.replace('input.html');
+}
     const ActionsEngine = {
         init() {
-            // 1. DATA RECOVERY: Look in LocalStorage first, then Fallback
-            const rawBill = parseFloat(localStorage.getItem('latest_bill')) || 4200;
-            const savedState = JSON.parse(localStorage.getItem('ohmly_system_state'));
+            const rawBill = parseFloat(localStorage.getItem('latest_bill')) || 0;
+            const kwh = Math.round(rawBill / 8.2);
+            const address = localStorage.getItem('user_address') || "Chennai";
             
-            // 2. CREATE STABLE STATE: Even if state is missing, the page won't crash
+            let calculatedScore = 88;
+            if (rawBill > 6000) calculatedScore = 45;
+            else if (rawBill > 3000) calculatedScore = 72;
+
             const state = {
                 bill: rawBill,
-                score: savedState ? savedState.score : (rawBill > 5000 ? 72 : 88),
-                carbon: savedState ? savedState.carbon : Math.round((rawBill / 8.2) * 0.85)
+                kwh: kwh,
+                score: calculatedScore,
+                carbon: Math.round(kwh * 0.82),
+                address: address
             };
 
             this.render(state);
+            this.initChart(state.bill);
+        },
+        initChart(bill) {
+            const canvas = document.getElementById('actionsBreakdownChart');
+            if (!canvas) return;
+            const ctx = canvas.getContext('2d');
+            const cooling = bill > 5000 ? 65 : 35;
+            new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Cooling', 'Others'],
+                    datasets: [{
+                        data: [cooling, 100 - cooling],
+                        backgroundColor: ['#002518', '#a6d0bb'],
+                        borderWidth: 0
+                    }]
+                },
+                options: {
+                    cutout: '75%',
+                    maintainAspectRatio: false,
+                    plugins: { legend: { position: 'bottom', labels: { font: { size: 10 } } } }
+                }
+            });
         },
 
         render(state) {
-            // 1. Fix the Alert (Usage Increase)
+            // 1. Fix Usage Alert & Color
             const usageValEl = document.getElementById('usage-percent-val');
             if(usageValEl) {
-                // If bill is high (>5000), show a higher increase alert
-                usageValEl.innerText = state.bill > 5000 ? "18.4%" : "11.2%";
+                const isHigh = state.bill > 4000;
+                usageValEl.innerText = isHigh ? "18.4%" : "4.2%";
+                usageValEl.className = `font-bold ${isHigh ? 'text-red-600' : 'text-emerald-600'}`;
             }
 
-            // 2. Fix the Carbon Text
-            if(document.getElementById('carbonSaved')) {
-                document.getElementById('carbonSaved').innerText = state.carbon;
+            // 2. THE MULTI-RECOMMENDATION SYSTEM
+            const recommendations = {
+                veryHigh: [
+                    { title: "Professional Audit", desc: "Your usage is in the top 5%. A professional audit can find hidden leaks.", icon: "warning", tag: "CRITICAL" },
+                    { title: "Heavy Appliance Check", desc: "Check your Water Heater and AC for faulty compressors or scaling.", icon: "plumbing", tag: "CRITICAL" },
+                    { title: "Peak-Hour Shutdown", desc: "Turn off non-essential heavy loads between 6 PM - 10 PM to lower demand.", icon: "timer_off", tag: "URGENT" },
+                    { title: "Phase Balance", desc: "Ask an electrician to check if your home load is balanced across phases.", icon: "account_tree", tag: "TECHNICAL" }
+                ],
+                high: [
+                    { title: "HVAC Optimization", desc: "Set AC to 24°C instead of 18°C. This can save up to ₹800 this month.", icon: "ac_unit", tag: "HIGH IMPACT" },
+                    { title: "Fridge Ventilation", desc: "Ensure there is 2-inch gap behind your fridge for better heat release.", icon: "kitchen", tag: "EASY FIX" },
+                    { title: "Dryer Usage", desc: "Air-dry clothes today. Electric dryers are one of your highest costs.", icon: "dry", tag: "BEHAVIOR" },
+                    { title: "Unplug Phantoms", desc: "TVs and Microwave clocks pull 'vampire' power. Unplug them tonight.", icon: "power_off", tag: "SAVINGS" }
+                ],
+                average: [
+                    { title: "Smart Lighting", desc: "Switching 3 more bulbs to LED could save you ₹150 on your next bill.", icon: "lightbulb", tag: "EASY WIN" },
+                    { title: "Natural Cooling", desc: "Use ceiling fans instead of AC for the first hour of sleep to save power.", icon: "mode_fan", tag: "COMFORT" },
+                    { title: "Ironing Efficiency", desc: "Iron all your clothes in one batch to avoid heating the iron multiple times.", icon: "iron", tag: "TIP" },
+                    { title: "Filter Cleaning", desc: "A clean AC filter improves airflow and reduces power consumption by 15%.", icon: "filter_alt", tag: "MAINTENANCE" }
+                ],
+                low: [
+                    { title: "Solar Maintenance", desc: "Great job! Clean your panels this weekend to maintain peak efficiency.", icon: "wb_sunny", tag: "STABLE" },
+                    { title: "Eco-Mode Master", desc: "You are already efficient. Use 'Eco-Mode' on your washing machine.", icon: "eco", tag: "PRO" },
+                    { title: "Community Leader", desc: "Your usage is low! Share your settings with neighbors to help the grid.", icon: "groups", tag: "SOCIAL" },
+                    { title: "Battery Health", desc: "Check your UPS battery water levels to ensure long-term backup health.", icon: "battery_charging_full", tag: "SAFETY" }
+                ]
+            };
+
+            // Determine which list to use
+            let selectedList;
+            let tagColor;
+            if (state.bill > 7000) { selectedList = recommendations.veryHigh; tagColor = "bg-red-600 text-white"; }
+            else if (state.bill > 4000) { selectedList = recommendations.high; tagColor = "bg-orange-500 text-white"; }
+            else if (state.bill > 2000) { selectedList = recommendations.average; tagColor = "bg-blue-500 text-white"; }
+            else { selectedList = recommendations.low; tagColor = "bg-emerald-500 text-white"; }
+
+            // PICK A RANDOM TIP FROM THE SELECTED LIST
+            const randomTip = selectedList[Math.floor(Math.random() * selectedList.length)];
+
+            // Apply to UI
+            const recTitle = document.getElementById('rec-title-1');
+            const recDesc = document.getElementById('rec-desc-1');
+            const recIcon = document.getElementById('rec-icon-1');
+            const recTag = document.getElementById('rec-tag-1');
+
+            if(recTitle) recTitle.innerText = randomTip.title;
+            if(recDesc) recDesc.innerText = randomTip.desc;
+            if(recIcon) recIcon.innerText = randomTip.icon;
+            if(recTag) {
+                recTag.innerText = randomTip.tag;
+                recTag.className = `${tagColor} text-[10px] font-bold px-2 py-1 rounded-full uppercase tracking-wider`;
             }
 
-            // 3. Dynamic AC Savings (Approx 12% of total bill)
-            if(document.getElementById('acSavingsText')) {
-                const acSavings = Math.round(state.bill * 0.12);
-                document.getElementById('acSavingsText').innerText = `Estimated savings: ₹${acSavings} / month`;
-            }
-
-            // 4. Update the "Active Target" Progress Bar
+            // 3. Update Progress Bar & Target Text
             const progressBar = document.getElementById('progressBar');
             const progressPercent = document.getElementById('progressPercent');
+            const targetText = document.querySelector('p.italic.leading-relaxed');
             
             if(progressBar && progressPercent) {
-                // Progress is based on their efficiency score
-                const progress = state.score; 
-                progressBar.style.width = progress + "%";
-                progressBar.style.transition = "width 2s cubic-bezier(0.34, 1.56, 0.64, 1)";
-                progressPercent.innerText = progress + "%";
+                progressBar.style.width = state.score + "%";
+                progressPercent.innerText = state.score + "%";
+                const unitsToGoal = Math.round(state.kwh * 0.10);
+                if (targetText) {
+                    // Normalization Logic
+                    const cityRaw = state.address.split(',')[0].trim();
+                    const normalizedCity = cityRaw.charAt(0).toUpperCase() + cityRaw.slice(1).toLowerCase();
+                    
+                    targetText.innerHTML = `
+                        <div class="flex items-center gap-1 mb-2 text-[10px] text-primary-fixed font-bold opacity-80 uppercase tracking-tighter">
+                            <span class="material-symbols-outlined text-xs" style="font-variation-settings: 'FILL' 1;">verified</span> 
+                            Normalized: ${normalizedCity} Node
+                        </div>
+                        "Small shifts today lead to a sustainable tomorrow in ${normalizedCity}. You're just ${unitsToGoal} units away from your goal!"
+                    `;
+                }
             }
         }
     };
@@ -354,8 +454,9 @@
         window.location.href = 'input.html';
     }
 
-    // Execute immediately to ensure the page renders
-    window.onload = () => ActionsEngine.init();
+    window.onload = () => {
+        ActionsEngine.init();
+    };
 </script>
 
 ```</body></html>

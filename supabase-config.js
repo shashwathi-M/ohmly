@@ -9,6 +9,12 @@ if (window.supabase) {
 } else {
     console.error("❌ Ohmly Cloud: Supabase Library missing from <head>");
 }
+window.getOhmlySession = () => {
+    const userId = localStorage.getItem('ohmly_user_id') || "GUEST";
+    const bill = localStorage.getItem('latest_bill') || "0";
+    const state = JSON.parse(localStorage.getItem('ohmly_system_state') || "{}");
+    return { userId, bill, state };
+};
 
 // Your professional ID generator
 function generateOhmlyID() {
