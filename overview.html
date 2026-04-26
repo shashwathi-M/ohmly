@@ -2,7 +2,7 @@
 
 <html class="light" lang="en"><head>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script src="Supabase-Config.js"></script>
+<script src="supabase-config.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     
 
@@ -285,245 +285,130 @@
 </header>
 
 <main class="pt-28 pb-20 px-margin-page max-w-7xl mx-auto">
+    <div class="mb-6 flex items-center gap-2 text-emerald-900/60 font-label-caps text-[10px] uppercase tracking-widest">
+        <span class="material-symbols-outlined text-sm">location_on</span>
+        <span>Monitoring Area:</span>
+        <span id="normalizedAddress" class="text-emerald-900 font-bold">Global Default</span>
+    </div>
 
-<div class="grid grid-cols-12 gap-gutter">
-
-<section class="col-span-12 lg:col-span-8 relative h-[500px] rounded-3xl overflow-hidden shadow-xl">
-
-<img class="absolute inset-0 w-full h-full object-cover" data-alt="Close up of hands gently cupping a small green plant sprout in rich dark soil, soft ethereal lighting with warm morning glow" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBeI1Q251zK5kHNOuQbRNzc3QpEumpVAi1cdmZpCGeqYtSvy6nWmakxHlAly_l057svU1U6d8-h_VMxmuUNVeoumFqlHU7Z904JRcZiQFQsoQk-KqfZ51ExxNh7RnUL6AkZxZTAU9kP7xihCV8wqbepZ9xDA9Tg2ci9MVQ_D9ZLXIj1VWR2WZwzFbZ30Ka1rNShBQI_oG91ZFK1Ht16yEvEN7SnoVGF5f0F45IeoP6_z6uFov7isQM9EtFQaWz6PlCPyd0Q1ukSgqmp"/>
-
-<div class="absolute inset-0 bg-gradient-to-r from-emerald-950/40 to-transparent"></div>
-
-<div class="relative z-10 h-full flex flex-col justify-between p-10">
-
-<div>
-
-<span class="inline-flex items-center px-4 py-1.5 rounded-full bg-white/20 backdrop-blur-md text-white font-label-caps text-[10px] uppercase mb-4">
-
+    <div class="grid grid-cols-12 gap-gutter">
+        <section class="col-span-12 lg:col-span-8 relative h-[500px] rounded-3xl overflow-hidden shadow-xl">
+            <img class="absolute inset-0 w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBeI1Q251zK5kHNOuQbRNzc3QpEumpVAi1cdmZpCGeqYtSvy6nWmakxHlAly_l057svU1U6d8-h_VMxmuUNVeoumFqlHU7Z904JRcZiQFQsoQk-KqfZ51ExxNh7RnUL6AkZxZTAU9kP7xihCV8wqbepZ9xDA9Tg2ci9MVQ_D9ZLXIj1VWR2WZwzFbZ30Ka1rNShBQI_oG91ZFK1Ht16yEvEN7SnoVGF5f0F45IeoP6_z6uFov7isQM9EtFQaWz6PlCPyd0Q1ukSgqmp"/>
+            <div class="absolute inset-0 bg-gradient-to-r from-emerald-950/40 to-transparent"></div>
+            <div class="relative z-10 h-full flex flex-col justify-between p-10">
+                <div>
+                    <span id="tierBadge" class="inline-flex items-center px-4 py-1.5 rounded-full bg-white/20 backdrop-blur-md text-white font-label-caps text-[10px] uppercase mb-4">
                         Silver Tier Efficiency
-
                     </span>
+                    <h1 class="font-h1 text-h1 text-white max-w-md">Your energy sanctuary is flourishing.</h1>
+                </div>
 
-<h1 class="font-h1 text-h1 text-white max-w-md">Your energy sanctuary is flourishing.</h1>
+                <div class="glass-card absolute top-1/2 -right-4 -translate-y-1/2 translate-x-[-15%] p-10 rounded-[40px] shadow-2xl flex flex-col items-center justify-center border-white/30">
+                    <div class="relative w-48 h-48 flex items-center justify-center">
+                        <svg class="w-full h-full -rotate-90">
+                            <circle class="text-emerald-900/10" cx="96" cy="96" fill="transparent" r="88" stroke="currentColor" stroke-width="12"></circle>
+                            <circle id="scoreCircle" class="text-emerald-900 transition-all duration-1000" cx="96" cy="96" fill="transparent" r="88" stroke="currentColor" stroke-dasharray="552.92" stroke-dashoffset="552.92" stroke-linecap="round" stroke-width="12"></circle>
+                        </svg>
+                        <div class="absolute inset-0 flex flex-col items-center justify-center">
+                            <span id="ohmScore" class="font-data-display text-[64px] text-emerald-900">--</span>
+                            <span class="font-label-caps text-emerald-900/60 -mt-2">Ohm Score</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
 
-</div>
+        <div class="col-span-12 lg:col-span-4 flex flex-col gap-gutter">
+            <div class="bg-[var(--dusty-peach)] p-card-padding rounded-3xl flex flex-col justify-between h-[155px] shadow-sm">
+                <div class="flex justify-between items-start">
+                    <span class="material-symbols-outlined text-primary p-2 bg-white/30 rounded-xl">bolt</span>
+                    <div class="flex items-center gap-1 bg-emerald-700/10 text-emerald-900 px-2 py-0.5 rounded-full text-caption font-bold">
+                        <span class="material-symbols-outlined text-xs">trending_down</span> 12%
+                    </div>
+                </div>
+                <div>
+                    <p id="kwhValue" class="font-data-display text-h3 text-emerald-950">-- kWh</p>
+                    <p class="font-caption text-emerald-900/70">Daily Usage Trend</p>
+                </div>
+            </div>
 
-<div class="glass-card absolute top-1/2 -right-4 -translate-y-1/2 translate-x-[-15%] p-10 rounded-[40px] shadow-2xl flex flex-col items-center justify-center border-white/30">
+            <div class="bg-[var(--sage-mist)] p-card-padding rounded-3xl flex flex-col justify-between h-[155px] shadow-sm">
+                <div class="flex justify-between items-start">
+                    <span class="material-symbols-outlined text-primary p-2 bg-white/30 rounded-xl">ecg_heart</span>
+                    <span class="text-emerald-900 font-label-caps text-[10px] uppercase border border-emerald-900/30 px-2 py-0.5 rounded-full">Optimal</span>
+                </div>
+                <div>
+                    <p id="efficiencyRank" class="font-data-display text-h3 text-emerald-950">Optimal</p>
+                    <p class="font-caption text-emerald-900/70">Efficiency Level</p>
+                </div>
+            </div>
 
-<div class="relative w-48 h-48 flex items-center justify-center">
+            <div class="bg-[var(--warm-pearl)] p-card-padding rounded-3xl flex flex-col justify-between h-[155px] shadow-sm">
+                <div class="flex justify-between items-start">
+                    <span class="material-symbols-outlined text-primary p-2 bg-white/30 rounded-xl">rebase</span>
+                </div>
+                <div>
+                    <p id="displayBill" class="font-data-display text-h3 text-emerald-950">₹ --</p>
+                    <p class="font-caption text-emerald-900/70">Monthly Total Power</p>
+                </div>
+            </div>
+        </div>
 
-<svg class="w-full h-full -rotate-90">
-
-<circle class="text-emerald-900/10" cx="96" cy="96" fill="transparent" r="88" stroke="currentColor" stroke-width="12"></circle>
-
-<circle class="text-emerald-900" cx="96" cy="96" fill="transparent" r="88" stroke="currentColor" stroke-dasharray="552.92" stroke-dashoffset="154.81" stroke-linecap="round" stroke-width="12"></circle>
-
-</svg>
-
-<div class="absolute inset-0 flex flex-col items-center justify-center">
-
-<span id="ohmScore" class="font-data-display text-[64px] text-emerald-900">--</span>
-
-<span class="font-label-caps text-emerald-900/60 -mt-2">Ohm Score</span>
-
-</div>
-
-</div>
-
-</div>
-
-</div>
-
-</section>
-
-<div class="col-span-12 lg:col-span-4 flex flex-col gap-gutter">
-
-<div class="bg-[var(--dusty-peach)] p-card-padding rounded-3xl flex flex-col justify-between h-[155px] shadow-sm">
-
-<div class="flex justify-between items-start">
-
-<span class="material-symbols-outlined text-primary p-2 bg-white/30 rounded-xl" data-icon="bolt">bolt</span>
-
-<div class="flex items-center gap-1 bg-emerald-700/10 text-emerald-900 px-2 py-0.5 rounded-full text-caption font-bold">
-
-<span class="material-symbols-outlined text-xs" data-icon="trending_down">trending_down</span>
-
-                        12%
-
+        <div class="col-span-12 grid grid-cols-1 md:grid-cols-2 gap-gutter mt-4">
+            <div class="bg-[var(--ghost-card-bg)] backdrop-blur-sm p-10 rounded-[32px] shadow-sm border border-emerald-900/5">
+                <h3 class="font-h3 text-h3 text-emerald-950 mb-6">Usage Breakdown</h3>
+                <div class="space-y-4">
+                    <div class="flex justify-between items-center text-sm">
+                        <span class="text-emerald-900/70">AC & Cooling</span>
+                        <span id="breakdown-ac" class="font-bold">45%</span>
+                    </div>
+                    <div class="w-full bg-emerald-900/10 h-1.5 rounded-full overflow-hidden">
+                        <div id="bar-ac" class="bg-emerald-600 h-full transition-all duration-1000" style="width: 0%"></div>
+                    </div>
+                    
+                    <div class="flex justify-between items-center text-sm pt-2">
+                        <span class="text-emerald-900/70">Kitchen Appliances</span>
+                        <span id="breakdown-kitchen" class="font-bold">30%</span>
+                    </div>
+                    <div class="w-full bg-emerald-900/10 h-1.5 rounded-full overflow-hidden">
+                        <div id="bar-kitchen" class="bg-yellow-500 h-full transition-all duration-1000" style="width: 0%"></div>
                     </div>
 
-</div>
-
-<div>
-
-<p id="kwhValue" class="font-data-display text-h3 text-emerald-950">-- kWh</p>
-
-<p class="font-caption text-emerald-900/70">Daily Usage Trend</p>
-
-</div>
-
-</div>
-
-<div class="bg-[var(--sage-mist)] p-card-padding rounded-3xl flex flex-col justify-between h-[155px] shadow-sm">
-
-<div class="flex justify-between items-start">
-
-<span class="material-symbols-outlined text-primary p-2 bg-white/30 rounded-xl" data-icon="ecg_heart">ecg_heart</span>
-
-<span class="text-emerald-900 font-label-caps text-[10px] uppercase border border-emerald-900/30 px-2 py-0.5 rounded-full">Optimal</span>
-
-</div>
-
-<div>
-
-<p id="efficiencyRank" class="font-data-display text-h3 text-emerald-950">Optimal</p>
-
-<p class="font-caption text-emerald-900/70">Efficiency Level</p>
-
-</div>
-
-</div>
-
-<div class="bg-[var(--warm-pearl)] p-card-padding rounded-3xl flex flex-col justify-between h-[155px] shadow-sm">
-
-<div class="flex justify-between items-start">
-
-<span class="material-symbols-outlined text-primary p-2 bg-white/30 rounded-xl" data-icon="rebase">rebase</span>
-
-</div>
-
-<div>
-
-<p id="displayBill" class="font-data-display text-h3 text-emerald-950">₹ --</p>
-
-<p class="font-caption text-emerald-900/70">Monthly Total Power</p>
-
-</div>
-
-</div>
-
-</div>
-
-<div class="col-span-12 grid grid-cols-1 md:grid-cols-2 gap-gutter mt-4">
-
-<div class="bg-[var(--ghost-card-bg)] backdrop-blur-sm p-10 rounded-[32px] shadow-sm border border-emerald-900/5">
-
-<div class="flex justify-between items-start mb-8">
-
-<h3 id="comparisonText" class="font-h3 text-h3 text-emerald-950 max-w-xs">Calculating your rank...</h3>
-
-<span class="bg-emerald-900/10 text-emerald-900 px-4 py-2 rounded-full font-label-caps text-[10px]">Top 20% In Neighborhood</span>
-
-</div>
-
-<div class="mt-12">
-
-<div class="flex justify-between text-caption font-bold text-emerald-900/40 uppercase mb-3 px-1">
-
-<span>Efficient</span>
-
-<span>High Usage</span>
-
-</div>
-
-<div class="relative h-4 w-full bg-gradient-to-r from-emerald-600 via-yellow-400 to-orange-500 rounded-full">
-
-<div class="absolute left-[18%] -top-1.5 w-7 h-7 bg-white rounded-full shadow-lg border-2 border-emerald-900 flex items-center justify-center">
-
-<div class="w-2 h-2 bg-emerald-900 rounded-full"></div>
-
-<span class="absolute -bottom-10 left-1/2 -translate-x-1/2 font-label-caps text-emerald-950">You</span>
-
-</div>
-
-</div>
-
-</div>
-
-</div>
-
-<div class="bg-[var(--ghost-card-bg)] backdrop-blur-sm p-10 rounded-[32px] shadow-sm border border-emerald-900/5 flex flex-col">
-
-<h3 class="font-h3 text-h3 text-emerald-950 mb-8">Peer Benchmarking</h3>
-
-<div class="space-y-6 flex-grow">
-
-<div class="flex items-center justify-between py-2 border-b border-emerald-950/10">
-
-<div class="flex items-center gap-4">
-
-<div class="w-10 h-10 rounded-full bg-emerald-900/10 flex items-center justify-center font-bold text-emerald-950">U1</div>
-
-<span id="user1Kwh" class="font-bold text-emerald-950 text-lg">-- kWh</span>
-
-</div>
-
-<div class="flex items-center gap-6">
-
-<span id="kwhValue" class="font-data-display text-lg text-emerald-950">Calculating...</span>
-
-<span class="bg-emerald-900 text-white px-3 py-1 rounded-full text-caption font-bold">Excellent</span>
-
-</div>
-
-</div>
-
-<div class="flex items-center justify-between py-2 border-b border-emerald-950/10">
-
-<div class="flex items-center gap-4">
-
-<div class="w-10 h-10 rounded-full bg-emerald-900/10 flex items-center justify-center font-bold text-emerald-950">U2</div>
-
-<span class="font-body-md font-semibold text-emerald-950">User 2</span>
-
-</div>
-
-<div class="flex items-center gap-6">
-
-<span class="font-data-display text-lg text-emerald-950">14.8 kWh</span>
-
-<span class="bg-yellow-600 text-white px-3 py-1 rounded-full text-caption font-bold">Average</span>
-
-</div>
-
-</div>
-
-<div class="flex items-center justify-between py-2">
-
-<div class="flex items-center gap-4">
-
-<div class="w-10 h-10 rounded-full bg-emerald-900/10 flex items-center justify-center font-bold text-emerald-950">U3</div>
-
-<span class="font-body-md font-semibold text-emerald-950">User 3</span>
-
-</div>
-
-<div class="flex items-center gap-6">
-
-<span class="font-data-display text-lg text-emerald-950">19.5 kWh</span>
-
-<span class="bg-orange-600 text-white px-3 py-1 rounded-full text-caption font-bold">High</span>
-
-</div>
-
-</div>
-
-</div>
-
-<a class="mt-8 flex items-center gap-2 text-emerald-950 font-bold font-label-caps text-[11px] group" href="#">
-
+                    <div class="flex justify-between items-center text-sm pt-2">
+                        <span class="text-emerald-900/70">Lighting & Entertainment</span>
+                        <span id="breakdown-light" class="font-bold">25%</span>
+                    </div>
+                    <div class="w-full bg-emerald-900/10 h-1.5 rounded-full overflow-hidden">
+                        <div id="bar-light" class="bg-primary h-full transition-all duration-1000" style="width: 0%"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-[var(--ghost-card-bg)] backdrop-blur-sm p-10 rounded-[32px] shadow-sm border border-emerald-900/5 flex flex-col">
+                <h3 class="font-h3 text-h3 text-emerald-950 mb-8">Peer Benchmarking</h3>
+                <div class="space-y-6 flex-grow">
+                    <div class="flex items-center justify-between py-2 border-b border-emerald-950/10">
+                        <div class="flex items-center gap-4">
+                            <div class="w-10 h-10 rounded-full bg-emerald-900/10 flex items-center justify-center font-bold text-emerald-950">YOU</div>
+                            <span id="user1Kwh" class="font-bold text-emerald-950 text-lg">-- kWh</span>
+                        </div>
+                        <span class="bg-emerald-900 text-white px-3 py-1 rounded-full text-caption font-bold">Excellent</span>
+                    </div>
+                    <div class="flex items-center justify-between py-2 border-b border-emerald-950/10">
+                        <div class="flex items-center gap-4">
+                            <div class="w-10 h-10 rounded-full bg-emerald-900/10 flex items-center justify-center font-bold text-emerald-950">NB1</div>
+                            <span class="font-body-md font-semibold text-emerald-950">Neighbor 1</span>
+                        </div>
+                        <span class="font-data-display text-lg text-emerald-950">340 kWh</span>
+                    </div>
+                </div>
+                <a class="mt-8 flex items-center gap-2 text-emerald-950 font-bold font-label-caps text-[11px] group" href="insights.html">
                     VIEW FULL INSIGHT REPORT
-
-                    <span class="material-symbols-outlined text-sm group-hover:translate-x-1 transition-transform" data-icon="arrow_forward">arrow_forward</span>
-
-</a>
-
-</div>
-
-</div>
-
-</div>
-
+                    <span class="material-symbols-outlined text-sm group-hover:translate-x-1 transition-transform">arrow_forward</span>
+                </a>
+            </div>
+        </div>
+    </div>
 </main>
 
 <footer class="bg-emerald-900 text-emerald-50 w-full mt-auto">
@@ -567,27 +452,38 @@
 </footer>
 
 <script>
+    if (!localStorage.getItem('latest_bill')) {
+    window.location.replace('input.html');
+}
     const OhmlyEngine = {
         async init() {
-            // 1. Get Bill & Calculate kWh
+            // 1. Get User Data from LocalStorage
             const rawBill = parseFloat(localStorage.getItem('latest_bill')) || 0;
             const kwh = Math.round(rawBill / 8.2);
             const userId = localStorage.getItem('ohmly_user_id');
+            const address = localStorage.getItem('user_address') || "Chennai, India";
             
-            // 2. YOUR ORIGINAL DESIGN LOGIC (Do not change)
-            let score, rank, sliderPos;
+            // 2. YOUR ORIGINAL RANKING LOGIC
+            let score, rank, sliderPos, color;
 
             if (rawBill <= 1000) {
-                score = 96; rank = "EXCEPTIONAL"; sliderPos = "10%";
+                score = 96; rank = "EXCEPTIONAL"; sliderPos = "10%"; color = "text-emerald-900";
             } else if (rawBill <= 3900) {
-                score = 84; rank = "GOOD"; sliderPos = "30%";
+                score = 84; rank = "GOOD"; sliderPos = "30%"; color = "text-emerald-900";
             } else if (rawBill <= 6000) {
-                score = 62; rank = "MODERATE"; sliderPos = "65%";
+                score = 62; rank = "MODERATE"; sliderPos = "65%"; color = "text-yellow-700";
             } else {
-                score = 41; rank = "HIGH USAGE"; sliderPos = "85%";
+                score = 41; rank = "HIGH USAGE"; sliderPos = "85%"; color = "text-orange-900";
             }
 
-            // 3. SILENT CLOUD SYNC (Fixed to use window.sb)
+            // 3. POINT 7: Address Normalization (Displaying processed location)
+            const normalizedDisplay = document.getElementById('normalizedAddress');
+            if (normalizedDisplay) {
+                // Takes the last two parts of the address (e.g., "Mylapore, Chennai")
+                normalizedDisplay.innerText = address.split(',').slice(-2).join(',').trim() || address;
+            }
+
+            // 4. SILENT CLOUD SYNC (Maintaining your Supabase connection)
             if (userId && rawBill > 0 && window.sb) {
                 window.sb.from('consumption_logs').insert([
                     { user_id: userId, value: kwh, unit: 'kWh' }
@@ -602,27 +498,42 @@
                 kwh: kwh,
                 score: score,
                 rank: rank,
-                sliderPos: sliderPos
+                sliderPos: sliderPos,
+                colorClass: color
             });
         },
 
         render(state) {
-            // ALL YOUR ORIGINAL DESIGN SELECTORS
+            // Updating IDs from your UI
             if(document.getElementById('ohmScore')) document.getElementById('ohmScore').innerText = state.score;
             if(document.getElementById('displayBill')) document.getElementById('displayBill').innerText = "₹ " + state.bill;
             
-            if(document.getElementById('efficiencyRank')) {
-                document.getElementById('efficiencyRank').innerText = state.rank;
-                if(state.score < 65) {
-                    document.getElementById('efficiencyRank').classList.replace('text-emerald-950', 'text-orange-900');
-                }
+            const rankEl = document.getElementById('efficiencyRank');
+            if(rankEl) {
+                rankEl.innerText = state.rank;
+                rankEl.className = `font-data-display text-h3 ${state.colorClass}`;
             }
             
             document.querySelectorAll('#kwhValue, #user1Kwh').forEach(el => {
                 el.innerText = state.kwh + " kWh";
             });
 
-            // FIXED POINTER LOGIC (Maintains your CSS classes)
+            // Point 6: Animated Usage Breakdown Bars
+            setTimeout(() => {
+                if(document.getElementById('bar-ac')) document.getElementById('bar-ac').style.width = "45%";
+                if(document.getElementById('bar-kitchen')) document.getElementById('bar-kitchen').style.width = "30%";
+                if(document.getElementById('bar-light')) document.getElementById('bar-light').style.width = "25%";
+                
+                // SVG Score Ring Animation (Calculates based on score)
+                const circle = document.getElementById('scoreCircle');
+                if (circle) {
+                    const circumference = 2 * Math.PI * 88;
+                    const offset = circumference - (state.score / 100) * circumference;
+                    circle.style.strokeDashoffset = offset;
+                }
+            }, 300);
+
+            // Neighborhood Slider Position
             const userIndicator = document.querySelector('.absolute.left-\\[18\\%\\]');
             if (userIndicator) {
                 userIndicator.style.left = state.sliderPos;
@@ -641,7 +552,25 @@
         window.location.href = 'input.html'; 
     }
 
-    window.onload = () => OhmlyEngine.init();
+    window.onload = () => {
+    // 1. Check for data
+    const billData = localStorage.getItem('latest_bill');
+    
+    // 2. If missing, kick them back to the start
+    if (!billData || billData === "0") {
+        window.location.href = 'input.html';
+        return; 
+    }
+
+    // 3. If data exists, start the page engine
+    // (Checks which engine name you used for that specific page)
+    if (typeof ActionsEngine !== 'undefined') ActionsEngine.init();
+    if (typeof OhmlyEngine !== 'undefined') OhmlyEngine.init();
+    
+    // If it's the Report page, it usually runs logic directly in onload
+    // so ensure your report logic is placed HERE.
+};
+    
 </script>
 
 </body></html>

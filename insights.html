@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html class="light" lang="en"><head>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script src="Supabase-Config.js"></script>
+<script src="supabase-config.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
@@ -130,9 +130,8 @@
 <h2 class="font-serif text-5xl mb-6">Localized Financials</h2>
 <p class="text-text-main/60 uppercase tracking-[0.1em] text-sm">Monthly Spend Trajectory (₹)</p>
 </div>
-<div class="flex gap-4">
-<button class="px-8 py-3 bg-primary text-white text-xs uppercase tracking-widest font-bold">Trajectory</button>
-<button class="px-8 py-3 border border-black/10 text-xs uppercase tracking-widest font-bold hover:bg-black/5">Yearly</button>
+<div class="flex justify-end">
+    <button class="px-8 py-3 bg-primary text-white text-xs uppercase tracking-widest font-bold">Trajectory</button>
 </div>
 </div>
 <div class="h-80 w-full flex items-end justify-between gap-4 border-b border-black/10 pb-4 mb-8">
@@ -197,7 +196,7 @@
 </div>
 <div class="border-l border-white/20 pl-6">
 <p class="text-xs uppercase tracking-[0.2em] text-white/60 mb-2">Monthly Units</p>
-<p class="font-serif text-3xl text-white"><span id="insightTotalUnits" class="font-serif text-8xl mb-2">--</span> <span class="text-lg opacity-60">Units</span></p>
+<p class="font-serif text-3xl text-white"><span id="insightTotalUnits" class="font-serif text-3xl mb-2">--</span> <span class="text-lg opacity-60">Units</span></p>
 </div>
 <div class="border-l border-white/20 pl-6">
 <p class="text-xs uppercase tracking-[0.2em] text-white/60 mb-2">Projected Bill</p>
@@ -253,84 +252,129 @@
 </div>
 </footer>
 <script>
+    if (!localStorage.getItem('latest_bill')) {
+    window.location.replace('input.html');
+}
 window.onload = () => {
-    // 1. Safety Check & Data Retrieval
+    // --- 1. ROUTE GUARD: Check for data first ---
     const bill = parseFloat(localStorage.getItem('latest_bill')) || 0;
-    const area = localStorage.getItem('user_area') || 'Tamil Nadu';
+    const area = localStorage.getItem('user_area') || 'Chennai';
+    const userId = localStorage.getItem('ohmly_user_id');
     
-    // Redirect if no data
-    if (!bill) { 
-        window.location.href = "index.html"; 
+    if (!bill || bill === 0) { 
+        console.warn("No bill data found. Returning to start.");
+        window.location.href = "input.html"; 
         return; 
     }
 
-    // 2. CORE CALCULATIONS
-    // Standard conversion: Bill to kWh (avg rate 8.2)
+    // --- 2. START PAGE ENGINES (If they exist) ---
+    if (typeof ActionsEngine !== 'undefined') ActionsEngine.init();
+    if (typeof OhmlyEngine !== 'undefined') OhmlyEngine.init();
+
+    // --- 3. CORE CALCULATIONS ---
     const kwh = (bill / 8.2).toFixed(1);
-    // Carbon logic: 0.82kg CO2 per kWh (India avg)
     const carbon = (kwh * 0.82).toFixed(1);
     const dailyKwh = (kwh / 30).toFixed(1);
-    // Assuming 3 people per household for the "Royal" breakdown
-    const perPerson = (kwh / 3).toFixed(1); 
-    const projected = (bill * 1.05).toFixed(0); // 5% buffer for next month
-    document.getElementById('displayAvgSpend').innerText = `₹${bill.toLocaleString()}`;
-    document.getElementById('displayPeakPeriod').innerText = "Current Cycle";
+    const perPerson = (kwh / 3).toFixed(1);
+    // Calculate the Trend (Comparing current bill to a baseline of ₹4000)
+    const averageBill = 4000; 
+    const trendValue = Math.round(((bill - averageBill) / averageBill) * 100);
+    const trendSign = trendValue > 0 ? "+" : ""; 
     
-    // Calculate a fake efficiency for now so it's not empty
-    const mockEfficiency = bill > 10000 ? "+8.2%" : "+14.1%";
-    document.getElementById('displayEfficiency').innerText = mockEfficiency;
+    // Create the Dynamic Insight Message
+    let insightMessage = "Standard consumption detected. You are within the balanced home rhythm.";
+    if (bill > 5000) {
+        insightMessage = "Your consumption is higher than the regional average. Reviewing cooling behavior is recommended.";
+    } else if (bill < 3000) {
+        insightMessage = "Exceptional efficiency! Your home is performing significantly better than your neighbors.";
+    } 
+    const projected = (bill * 1.05).toFixed(0);
 
-    // Fix the 18% and the heatwave text
-    const trend = bill > 10000 ? "12" : "5";
-    document.querySelectorAll('.usage-percent-display').forEach(el => el.innerText = trend);
-    document.getElementById('dynamic-insight-text').innerText = bill > 10000 
-        ? "Optimization is recommended for peak daylight hours." 
-        : "Your usage is stable and within optimal range.";
+    // POINT 2: Dynamic Carbon Math
+    const carMiles = Math.round(carbon * 2.4); // ~2.4 miles per kg of CO2
+    const solarOffset = Math.round(kwh * 0.15); // Estimated 15% passive offset
 
-    // 3. INJECT DATA INTO UI
+    // --- 4. INJECT DATA INTO UI ---
+    // Make sure these IDs actually exist in your HTML!
+    if(document.getElementById('displayAvgSpend')) {
+        document.getElementById('displayAvgSpend').innerText = `₹${bill.toLocaleString()}`;
+    }
     
+    // POINT 8: Localized Peak Period Logic
+    const currentHour = new Date().getHours();
+    let peakLabel = (currentHour > 10 && currentHour < 16) ? "Afternoon Spike" : "Evening Peak";
+    if(document.getElementById('displayPeakPeriod')) {
+        document.getElementById('displayPeakPeriod').innerText = peakLabel;
+    }
+    
+    const mockEfficiency = bill > 5000 ? "Needs Review" : "Optimal";
+    const efficiencyEl = document.getElementById('displayEfficiency');
+    if(efficiencyEl) {
+        efficiencyEl.innerText = mockEfficiency;
+        if(bill > 5000) {
+            efficiencyEl.classList.add('text-orange-800');
+            efficiencyEl.classList.remove('text-primary');
+        }
+    }
+
     // Update Carbon Footprint Card
     const carbonEl = document.getElementById('insightCarbon');
-    if (carbonEl) carbonEl.innerText = `${carbon} kg CO2`;
+    if (carbonEl) {
+        carbonEl.innerText = `${carbon} kg CO2`;
+        const narrative = carbonEl.nextElementSibling;
+        if(narrative) {
+            narrative.innerText = `Equivalent to driving ${carMiles} miles in urban traffic. Solar offsets have mitigated ${solarOffset} kg this cycle.`;
+        }
+    }
 
-    // Update the "Trajectory" Chart Tooltip
-    const tooltip = document.getElementById('chartTooltip');
-    if (tooltip) tooltip.innerText = `₹${bill.toLocaleString()}`;
+    // Generic UI Updates
+    const setUI = (id, val) => { if(document.getElementById(id)) document.getElementById(id).innerText = val; };
+    setUI('chartTooltip', `₹${bill.toLocaleString()}`);
+    setUI('insightMonthlyUnits', Math.round(kwh));
+    setUI('insightTotalUnits', Math.round(kwh));
+    setUI('insightDaily', dailyKwh);
+    setUI('perPersonUnits', perPerson);
+    setUI('insightProjected', `₹${parseInt(projected).toLocaleString()}`);
+    // Update the Trend Percentage (--%)
+    const trendDisplay = document.querySelector('.usage-percent-display');
+    if (trendDisplay) {
+        trendDisplay.innerText = trendSign + trendValue;
+    }
 
-    // Update Breakdown Analysis Section
-    document.getElementById('insightMonthlyUnits').innerText = Math.round(kwh);
-    document.getElementById('insightTotalUnits').innerText = Math.round(kwh);
-    document.getElementById('insightDaily').innerText = dailyKwh;
-    document.getElementById('perPersonUnits').innerText = perPerson;
-    document.getElementById('insightProjected').innerText = `₹${parseInt(projected).toLocaleString()}`;
+    // Update the "Analysis Pending" Text
+    const statusText = document.getElementById('dynamic-insight-text');
+    if (statusText) {
+        statusText.innerText = insightMessage;
+    }
 
-    // 4. ANIMATE THE CIRCULAR GAUGE
-    // The dasharray is 880. We map kWh (up to 1000) to this.
+    // --- 5. ANIMATE THE CIRCULAR GAUGE ---
     const progressCircle = document.querySelector('circle.text-white[stroke-dasharray="880"]');
     if (progressCircle) {
-        const limit = 1000; 
+        const limit = 1500; 
         const percentage = Math.min(kwh / limit, 1);
         const offset = 880 - (880 * percentage);
-        
-        progressCircle.style.transition = 'stroke-dashoffset 2s cubic-bezier(0.4, 0, 0.2, 1)';
-        progressCircle.style.strokeDashoffset = offset;
+        setTimeout(() => {
+            progressCircle.style.transition = 'stroke-dashoffset 2s cubic-bezier(0.4, 0, 0.2, 1)';
+            progressCircle.style.strokeDashoffset = offset;
+        }, 500);
     }
 
-    // 5. UPDATE LOCALIZED TEXT
-    const heroDesc = document.querySelector('section h2.font-serif');
-    if (heroDesc) {
-        heroDesc.innerText = `Your ${area} sanctuary's ecological impact, visualized.`;
+    // --- 6. DATABASE (Optional) ---
+    if (window.sb) {
+        // loadRecommendations(); // Ensure this function is defined if you use it
     }
 };
-async function loadRecommendations() {
-    const { data, error } = await supabase
-        .from('recommendations')
-        .select('title, description, category, impact_level');
 
-    if (data) {
-        // Example: Update the UI with the first recommendation
-        document.getElementById('tip-title').innerText = data[0].title;
-        document.getElementById('tip-desc').innerText = data[0].description;
+async function loadRecommendations() {
+    // Only fetch if Supabase is ready
+    const { data, error } = await window.sb
+        .from('recommendations')
+        .select('title, description')
+        .limit(1);
+
+    if (data && data.length > 0) {
+        // We use these to update the "Performance Metrics" cards dynamically if needed
+        console.log("✅ Custom Recommendations Loaded:", data[0].title);
     }
 }
 </script>

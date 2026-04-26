@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html class="light" lang="en">
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script src="Supabase-Config.js"></script>
+<script src="supabase-config.js"></script>
     
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
@@ -95,6 +95,12 @@
 </div>
 </header>
 <main>
+    <div class="w-full bg-sap-green text-white px-6 py-3 flex items-center justify-center gap-3">
+    <span class="material-symbols-outlined text-lg">desktop_windows</span>
+    <p class="text-[11px] font-bold uppercase tracking-widest text-center">
+        Ohmly delivers its full experience on desktop. Please switch to a larger screen or open the desktop site to access complete energy insights
+    </p>
+</div>
 <section class="relative min-h-[900px] flex flex-col lg:flex-row bg-background-warm">
 <div class="relative w-full lg:w-1/2 h-[500px] lg:h-auto overflow-hidden">
 <div class="absolute inset-0 bg-cover bg-center" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAzbSlAfSs2aOSsvi9_ipFSTNpuZzT_JYfYbTe_Bf09WBDoTZDkFkVCRjjp_jvoRf7kOv2XhUpwsEtk6TBuyeIkA7xALVgInqkxk2nhjLhXXGNo5kGT1RIimQ67yISYJr9ISVjbYadq5os4Sp_jII4TrMw_hYRUILrDjy2L91kxUCfQKnMmPXhwvrJ2emMidYoLDjfoHnoj1PkDnPQJSfj3QqZ_cPbqRQyaXBsX5j16G0dQgQ1wbDhhc10rREfSzD2lrMkkbl19Q28f')"></div>
@@ -136,35 +142,53 @@
     </div>
 
     <div class="p-4 rounded-2xl border border-border-organic/40">
-        <h3 class="text-xs font-bold uppercase tracking-widest text-sap-green/60 mb-4 text-center">First-Time Setup</h3>
-        <div class="space-y-4">
+    <h3 class="text-xs font-bold uppercase tracking-widest text-sap-green/60 mb-4 text-center">First-Time Setup</h3>
+    <div class="space-y-4">
+        <div class="space-y-1">
+            <label class="text-[10px] font-bold uppercase text-sap-green/40 ml-2">Create Ohmly ID</label>
+            <input id="newUserID" class="w-full bg-white/50 border-border-organic rounded-xl px-4 py-3 text-sm focus:ring-sap-green" placeholder="e.g. User_123" type="text"/>
+        </div>
+
+        <div class="space-y-1">
+    <label class="text-[10px] font-bold uppercase text-sap-green/40 ml-2 tracking-widest">Home Address (Required for Normalization)</label>
+    <div class="relative group">
+        <span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-sap-green/30 group-focus-within:text-sap-green transition-colors text-lg">location_on</span>
+        <input 
+            id="newAddress" 
+            class="w-full bg-white/50 border-border-organic rounded-xl pl-12 pr-4 py-3 text-sm focus:ring-sap-green outline-none transition-all" 
+            placeholder="e.g. Adyar, Chennai" 
+            type="text"
+        />
+    </div>
+    <p class="text-[9px] text-sap-green/60 italic ml-2 mt-1">
+        Format: <span class="font-bold">Area, City</span> (Required for AI node mapping)
+    </p>
+</div>
+
+        <div class="space-y-1">
+            <label class="text-[10px] font-bold uppercase text-sap-green/40 ml-2">Initial Bill for Analysis (₹)</label>
+            <input id="newMemberBill" class="w-full bg-white/50 border-border-organic rounded-xl px-4 py-3 text-sm focus:ring-sap-green" placeholder="e.g. 3000" type="number"/>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div class="space-y-1">
-                <label class="text-[10px] font-bold uppercase text-sap-green/40 ml-2">Home Address</label>
-                <input class="w-full bg-white/50 border-border-organic rounded-xl px-4 py-3 text-sm focus:ring-sap-green" placeholder="Enter your full address" type="text"/>
+                <label class="text-[10px] font-bold uppercase text-sap-green/40 ml-2">Occupancy</label>
+                <select class="w-full bg-white/50 border-border-organic rounded-xl px-4 py-3 text-sm focus:ring-sap-green">
+                    <option>1-2 Persons</option>
+                    <option>3-4 Persons</option>
+                    <option>5+ Persons</option>
+                </select>
             </div>
             <div class="space-y-1">
-    <label class="text-[10px] font-bold uppercase text-sap-green/40 ml-2">Initial Bill for Analysis (₹)</label>
-    <input id="newMemberBill" class="w-full bg-white/50 border-border-organic rounded-xl px-4 py-3 text-sm focus:ring-sap-green" placeholder="e.g. 3000" type="number"/>
-</div>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div class="space-y-1">
-                    <label class="text-[10px] font-bold uppercase text-sap-green/40 ml-2">Occupancy</label>
-                    <select class="w-full bg-white/50 border-border-organic rounded-xl px-4 py-3 text-sm focus:ring-sap-green">
-                        <option>1-2 Persons</option>
-                        <option>3-4 Persons</option>
-                        <option>5+ Persons</option>
-                    </select>
-                </div>
-                <div class="space-y-1">
-                    <label class="text-[10px] font-bold uppercase text-sap-green/40 ml-2">Billing Cycle</label>
-                    <select class="w-full bg-white/50 border-border-organic rounded-xl px-4 py-3 text-sm focus:ring-sap-green">
-                        <option>Monthly</option>
-                        <option>Bi-monthly</option>
-                    </select>
-                </div>
+                <label class="text-[10px] font-bold uppercase text-sap-green/40 ml-2">Billing Cycle</label>
+                <select class="w-full bg-white/50 border-border-organic rounded-xl px-4 py-3 text-sm focus:ring-sap-green">
+                    <option>Monthly</option>
+                    <option>Bi-monthly</option>
+                </select>
             </div>
         </div>
     </div>
+</div>
 
     <button id="submitBtn" 
         type="button" 
@@ -272,9 +296,11 @@
 </div>
 </footer>
 <script>
+localStorage.removeItem('latest_bill');
+localStorage.removeItem('ohmly_system_state');
 (function() {
     const SB_URL = 'https://aorpqiaogqrdbjrayhff.supabase.co';
-    const SB_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFvcnBxaWFvZ3FyZGJqcmF5aGZmIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzcwMTczODksImV4cCI6MjA5MjU5MzM4OX0.w3eE9XNxlhnN5EFR7MfnfrhjekAekKkqwgLT9zYDmak';
+    const SB_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...'; // Your key
     let supabaseClient;
 
     window.addEventListener('DOMContentLoaded', () => {
@@ -282,76 +308,96 @@
             supabaseClient = window.supabase.createClient(SB_URL, SB_KEY);
         }
 
+        // Check for existing user
         const savedId = localStorage.getItem('ohmly_user_id');
         const displayEl = document.getElementById('userDisplayId');
         if (savedId && displayEl) {
-            displayEl.innerText = "ID: " + savedId.substring(0, 8).toUpperCase();
+            displayEl.innerText = "Logged in: " + savedId.toUpperCase();
             if(document.getElementById('returningID')) document.getElementById('returningID').value = savedId;
         }
     });
 
     window.runOhmlyLogic = async function() {
-    const submitBtn = document.getElementById('submitBtn');
-    const existingBill = document.getElementById('billInput').value;
-    const newMemberBill = document.getElementById('newMemberBill').value;
-    
-    // Pick whichever box has a number in it
-    const billVal = parseFloat(existingBill || newMemberBill || "0");
-    
-    if (billVal <= 0) {
-        alert("Please enter a valid bill amount to start the analysis.");
-        return;
-    }
+        const submitBtn = document.getElementById('submitBtn');
+        
+        // Get values from BOTH forms
+        const returningID = document.getElementById('returningID').value.trim();
+        const existingBill = document.getElementById('billInput').value;
+        
+        const newUserID = document.getElementById('newUserID')?.value.trim();
+        const newMemberBill = document.getElementById('newMemberBill').value;
+        const address = document.getElementById('newAddress')?.value.trim();
 
-    // 1. SAVE TO DATABASE (LocalStorage)
-    // We save under multiple keys to ensure compatibility with your other pages
-    localStorage.setItem('latest_bill', billVal);
-    localStorage.setItem('bill', billVal);
-    
-    // 2. CREATE A SYSTEM STATE (Overview/Insights expects this)
-    const mockState = {
-        bill: billVal,
-        kwh: (billVal / 8.2).toFixed(1), // Dynamic conversion
-        score: Math.floor(Math.random() * (95 - 70 + 1)) + 70, // Randomized for demo
-        carbon: (billVal * 0.1).toFixed(1)
-    };
-    localStorage.setItem('ohmly_system_state', JSON.stringify(mockState));
+        // --- POINT 1 & 2: VALIDATION LOGIC ---
+        let finalID = returningID || newUserID;
+        let finalBill = parseFloat(existingBill || newMemberBill || "0");
+        // --- ADDRESS NORMALIZATION GATEKEEPER ---
+if (address && !address.includes(',')) {
+    alert("📍 Address Format Error: Please enter your address as 'Area, City' (e.g. T. Nagar, Chennai) so we can normalize your energy node.");
+    return;
+}
 
-    // 3. SUPABASE SYNC (Optional but recommended)
-    try {
-        if (supabaseClient) {
-            submitBtn.innerText = "Syncing...";
-            await supabaseClient.from('consumption_logs').insert([{ 
-                user_id: localStorage.getItem('ohmly_user_id') || "GUEST_USER",
-                value: billVal, 
-                unit: 'INR',
-                created_at: new Date()
-            }]);
+        if (!finalID) {
+            alert("⚠️ Error: Please enter an Ohmly ID or create a new one to continue.");
+            return;
         }
-    } catch (e) { 
-        console.warn("Supabase Sync Failed - Running in Local Mode", e); 
-    }
+        if (finalBill <= 0) {
+            alert("⚠️ Error: Please enter a valid bill amount for analysis.");
+            return;
+        }
 
-    // 4. REDIRECT
-    submitBtn.innerText = "Analyzing...";
-    setTimeout(() => {
-        window.location.href = "overview.html"; // Or loading.html
-    }, 500);
-}
-async function saveConsumption(billValue) {
-    const { data, error } = await supabase
-        .from('consumption_logs')
-        .insert([
-            { 
-                user_id: localStorage.getItem('ohmly_user_id'), // Matches your 'text' ID
-                value: parseFloat(billValue),                  // Matches your 'float8'
-                unit: 'kWh'                                     // Matches your 'text'
+        // --- POINT 3: UNIQUE ID HANDLING ---
+        // If they are new, we save their chosen ID
+        localStorage.setItem('ohmly_user_id', finalID);
+        localStorage.setItem('latest_bill', finalBill);
+        localStorage.setItem('user_address', address || "Not Provided"); // Address is optional
+
+        // --- POINT 5: LOADING STATE ---
+        submitBtn.disabled = true;
+        submitBtn.innerHTML = `
+            <span class="flex items-center justify-center gap-2">
+                <svg class="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                </svg>
+                Analyzing...
+            </span>
+        `;
+
+        // --- POINT 6 & 8: DATA PREP FOR AGGREGATION ---
+        const mockState = {
+            bill: finalBill,
+            kwh: (finalBill / 8.2).toFixed(1),
+            score: Math.floor(Math.random() * (95 - 70 + 1)) + 70, 
+            carbon: (finalBill * 0.12).toFixed(2),
+            timestamp: new Date().toISOString()
+        };
+        localStorage.setItem('ohmly_system_state', JSON.stringify(mockState));
+
+        // Sync with Supabase
+        try {
+            if (supabaseClient) {
+                await supabaseClient.from('consumption_logs').insert([{ 
+                    user_id: finalID,
+                    value: finalBill, 
+                    unit: 'INR',
+                    address_provided: !!address
+                }]);
             }
-        ]);
+        } catch (e) { 
+            console.warn("Sync skipped. Error:", e); 
+        }
 
-    if (error) console.error("Error saving:", error.message);
-    else window.location.href = 'overview.html';
-}
+        // 2. SAVE DATA (Crucial for the Security Guard)
+        localStorage.setItem('latest_bill', finalBill);
+        localStorage.setItem('ohmly_user_id', finalID);
+
+        // 3. REDIRECT (This is now safe from Supabase errors)
+        console.log("Starting redirect sequence...");
+        setTimeout(() => {
+            window.location.href = "loading.html"; 
+        }, 3500); // 3.5 seconds is plenty of time for the button animation
+    }
 })();
 </script>
 
